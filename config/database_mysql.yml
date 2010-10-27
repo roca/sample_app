@@ -1,0 +1,15 @@
+development:
+  adapter: mysql  
+  database: roca_sampleappdev
+  username: roca_roca
+  password: Y1VC8hD&;.k
+test:
+  adapter: mysql  
+  database: roca_sampleapptest
+  username: roca_roca
+  password: Y1VC8hD&;.k
+production:
+  adapter: mysql  
+  database: roca_sampleappprod
+  username: roca_roca
+  password: Y1VC8hD&;.k

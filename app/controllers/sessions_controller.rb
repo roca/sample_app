@@ -13,7 +13,8 @@ class SessionsController < ApplicationController
        render 'new'
         # Create an error message and re-render the signin form.
       else
-        # Sign the user in and redirect to the user's show page.
+        sign_in user
+        redirect_to user
       end
    
   end

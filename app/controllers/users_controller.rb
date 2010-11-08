@@ -1,4 +1,7 @@
 class UsersController < ApplicationController
+  
+  before_filter :authenticate, :only => [:edit,:update]
+  
   def new
     @user = User.new
     @title = "Sign up"
@@ -37,5 +40,13 @@ class UsersController < ApplicationController
    
   end
 
-
+ private
+ 
+ def authenticate
+   deny_access unless signed_in?
+ end
+ 
+ def deny_access
+   redirect_to signin_path, :notice => "Please sign in to access this page."
+ end
 end

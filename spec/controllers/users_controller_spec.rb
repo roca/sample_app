@@ -59,7 +59,7 @@ describe UsersController do
      describe "failure" do
        
        before(:each) do
-       @attr = { :name                   => "", 
+        @attr = { :name                   => "", 
                  :email                  => "",
                  :password               => "", 
                  :password_confirmation  => ""
@@ -74,7 +74,7 @@ describe UsersController do
        it "should render the 'new' page" do
           post :create , :user => @attr
           response.should render_template('new')
-        end
+       end
         
        it "should not create a new user" do
          lambda do
@@ -83,23 +83,22 @@ describe UsersController do
        end
        
        
-      end
+     end
       
-      describe "Success" do
+     describe "Success" do
 
         before(:each) do
-        @attr = { :name                   => "Romel Campbell", 
+         @attr = { :name                   => "Romel Campbell", 
                   :email                  => "RomelCampbell@gmail.com",
                   :password               => "foobar", 
                   :password_confirmation  => "foobar"
                 }
         end
 
-
         it "should redirect to the 'show' page" do
            post :create , :user => @attr
            response.should redirect_to(user_path(assigns(:user)))
-         end
+        end
 
         it "should create a new user" do
           lambda do
@@ -110,15 +109,15 @@ describe UsersController do
         it 'should have a welcome message' do
            post :create , :user => @attr
            flash[:success].should =~ /welcome to the sample app/i
-         end
+        end
          
-         it "should sign the user in" do
+        it "should sign the user in" do
             post :create , :user => @attr
             controller.should be_signed_in
-          end
+        end
 
-       end
-   end
+     end
+  end
   
   describe "GET 'edit'" do
     before(:each) do
@@ -199,4 +198,24 @@ describe UsersController do
      end
   end
 
+  describe "authentication of edit/update actions" do
+    
+    before(:each) do
+      @user = Factory(:user)
+    end
+    
+    it "should deny access to 'edit'" do
+      
+      get :edit , :id => @user
+      response.should redirect_to(signin_path)
+      flash[:notice].should =~ /sign in/i
+    end
+       
+       it "should deny access to 'update'" do
+
+         put :update , :id => @user, :user => {}
+         response.should redirect_to(signin_path)
+
+       end
+  end
 end

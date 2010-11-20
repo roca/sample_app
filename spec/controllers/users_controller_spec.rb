@@ -103,11 +103,31 @@ describe UsersController do
       response.should have_selector("h1>img", :class => "gravatar")
     end
     
-     it "should have the right URL" do
+    it "should have the right URL" do
         get :show, :id => @user
         response.should have_selector("td>a",:content => user_path(@user),
                                              :href    => user_path(@user))
-      end
+    end
+  
+    it "should show the user's microposts" do
+      mp1 = Factory(:micropost, :user => @user , :content => "Foo Bar")
+      mp2 = Factory(:micropost, :user => @user , :content => "Baz quux")
+      get :show, :id => @user
+      response.should have_selector("span.content",:content => mp1.content)
+      response.should have_selector("span.content",:content => mp2.content)
+    end
+    
+    it "should paginate microposts" do
+       35.times { Factory(:micropost, :user => @user , :content => "foo") }
+       get :show, :id => @user
+       response.should have_selector("div.pagination")
+    end
+    
+     it "should display microposts count" do
+          10.times { Factory(:micropost, :user => @user , :content => "foo") }
+          get :show, :id => @user
+          response.should have_selector("td.sidebar", :content => @user.microposts.count.to_s)
+     end
   end
 
   describe "GET 'new'"     do

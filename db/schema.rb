@@ -19,6 +19,8 @@ ActiveRecord::Schema.define(:version => 20101119202650) do
     t.datetime "updated_at"
   end
 
+  add_index "microposts", ["user_id"], :name => "index_microposts_on_user_id"
+
   create_table "users", :force => true do |t|
     t.string   "name"
     t.string   "email"

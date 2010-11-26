@@ -105,5 +105,5 @@ DEPENDENCIES
   rspec-rails (= 2.1.0)
   spork (= 0.8.4)
   sqlite3-ruby (= 1.2.5)
-  webrat
+  webrat (= 0.7.1)
   will_paginate (= 3.0.pre)

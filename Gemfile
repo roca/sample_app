@@ -17,8 +17,7 @@ group :development do
 end
 group :test do 
 	gem 'rspec', '2.1.0'
-        gem 'webrat'
-	#gem 'rspec', '2.0.0.beta.18'
+        gem 'webrat', '0.7.1'
 	gem 'spork', '0.8.4'
 	gem 'factory_girl_rails','1.0'
 end

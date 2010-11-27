@@ -3,10 +3,10 @@ require 'spec_helper'
 describe User do
   
   before(:each) do
-  @attr = { :name                   => "Excample user", 
-            :email                  => "user@example.com",
-            :password               => "foobar", 
-            :password_confirmation  => "foobar"
+   @attr = { :name                   => "Excample user", 
+             :email                  => "user@example.com",
+             :password               => "foobar", 
+             :password_confirmation  => "foobar"
           }
   end
   
@@ -19,7 +19,6 @@ describe User do
     no_name_user.should_not be_valid
   end
   
-  
   it "should require a name" do
     no_email_user = User.new(@attr.merge(:email => ""))
     no_email_user.should_not be_valid
@@ -31,9 +30,9 @@ describe User do
         valid_email_user = User.new(@attr.merge(:email => address))
         valid_email_user.should be_valid
       end
-    end
+  end
 
-    it "should reject invalid email addresses" do
+  it "should reject invalid email addresses" do
       addresses = %w[user@foo,com user_at_foo.org example.user@foo.]
       addresses.each do |address|
         invalid_email_user = User.new(@attr.merge(:email => address))
@@ -41,22 +40,21 @@ describe User do
       end
     end
   
-
-    it "should reject invalid email addresses" do 
+  it "should reject invalid email addresses" do 
       addresses = %w[user@foo,com user_at_foo.org example.user@foo.] 
       addresses.each do |address|
         invalid_email_user = User.new(@attr.merge(:email => address))
         invalid_email_user.should_not be_valid 
       end
-     end
+    end
      
-     it "should reject user with duplicate email" do
+  it "should reject user with duplicate email" do
        User.create!(@attr)
        user_with_duplicate_email = User.new(@attr)
        user_with_duplicate_email.should_not be_valid
      end
 
-    it "should reject email addresses indentical up to case" do
+  it "should reject email addresses indentical up to case" do
       upcased_email = @attr[:email].upcase
       User.create!(@attr.merge(:email => upcased_email))
       user_with_duplicate_email = User.new(@attr)
@@ -100,7 +98,6 @@ describe User do
         User.new(hash).should_not be_valid
       end
     end
-    
     
     describe "password encryption" do
       
@@ -178,7 +175,7 @@ describe User do
        
     end
      
-     describe "microposts associations" do
+    describe "microposts associations" do
 
         before(:each) do
           @user = User.create(@attr)
@@ -201,9 +198,9 @@ describe User do
             Micropost.find(micropost.id)
            end.should raise_error(ActiveRecord::RecordNotFound)
           end
-        end
+    end
         
-        describe "status feed" do
+    describe "status feed" do
           
             it "should have a feed" do
               @user.should respond_to(:feed)
@@ -220,9 +217,62 @@ describe User do
                                               :email => Factory.next(:email)))
               @user.feed.should_not include(@mp3)
             end
-         end
+    end
         
+    describe "relationships" do
+      
+      before(:each) do
+        @user = Factory(:user)
+        @followed = Factory(:user, :email => Factory.next(:email))
       end
+      
+      it "should have a relationships method" do
+        @user.should respond_to(:relationships)
+      end
+      
+      it "should have a following method" do
+        @user.should respond_to(:following)
+      end
+      
+      it "should follow another user" do
+        @user.follow!(@followed)
+        @user.should be_following(@followed)
+      end
+       
+       it "should include the followed user in the following array" do
+          @user.follow!(@followed)
+          @user.following.should include(@followed)
+       end
+       
+        it "should have a follow! method" do
+           @user.should respond_to(:follow!)
+        end
+        
+        it "should have a unfollow! method" do
+           @user.should respond_to(:unfollow!)
+        end
+        
+        it "should unfollow a user" do
+          @user.follow!(@followed)
+          @user.unfollow!(@followed)
+          @user.should_not be_following(@followed)
+          @user.following?(@followed).should be_false
+        end
+        
+        it "should have a reverse_relationships method" do
+          @user.should respond_to(:reverse_relationships)
+        end
+        
+        it "should have a followers method" do
+          @user.should respond_to(:followers)
+        end
+        
+        it "should include the follower in the followers array" do
+            @user.follow!(@followed)
+            @followed.followers.should include(@user)
+         end
+    end
+end
       
      
 end

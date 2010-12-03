@@ -38,7 +38,7 @@ describe User do
         invalid_email_user = User.new(@attr.merge(:email => address))
         invalid_email_user.should_not be_valid
       end
-    end
+  end
   
   it "should reject invalid email addresses" do 
       addresses = %w[user@foo,com user_at_foo.org example.user@foo.] 
@@ -46,20 +46,20 @@ describe User do
         invalid_email_user = User.new(@attr.merge(:email => address))
         invalid_email_user.should_not be_valid 
       end
-    end
+  end
      
   it "should reject user with duplicate email" do
        User.create!(@attr)
        user_with_duplicate_email = User.new(@attr)
        user_with_duplicate_email.should_not be_valid
-     end
+  end
 
   it "should reject email addresses indentical up to case" do
       upcased_email = @attr[:email].upcase
       User.create!(@attr.merge(:email => upcased_email))
       user_with_duplicate_email = User.new(@attr)
       user_with_duplicate_email.should_not be_valid
-    end
+  end
     
     describe "passswords" do
       before(:each) do
@@ -279,6 +279,36 @@ describe User do
             @followed.followers.should include(@user)
          end
     end
+
+    describe "acivation token associations" do
+
+        before(:each) do
+          @user =  Factory(:user)
+          @token = Factory(:activation_token, :user => @user, :token => Factory.next(:token))
+        end
+
+        it "should have a activation_token attribute" do
+          @user.should respond_to(:activation_token)
+        end
+        
+             
+       it "should have the right activation_token in the right order" do
+          @user.activation_token.should == @token
+       end
+       
+       it "should have the right activation_token in the right order" do
+          @user.activation_token.token.should == @token.token
+       end
+   
+          
+        it "should destroy associated activation_token" do
+          @user.destroy
+           lambda do
+            ActivationToken.find(@token.id)
+           end.should raise_error(ActiveRecord::RecordNotFound)
+        end 
+    end
+
 end
       
      

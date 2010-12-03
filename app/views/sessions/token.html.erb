@@ -1,0 +1,19 @@
+<h1>Sign in with token </h1>
+Enter the email and activation token that was emailed to you here. You will then be signed in to your profile page where you can reset you password word.
+
+<%= form_for(:session, :url => create_with_token_sessions_path) do |f| %>
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.text_field :email %>
+  </div>
+  <div class="field">
+    <%= f.label :token %><br />
+    <%= f.password_field :token %>
+  </div>
+  <div class="actions">
+    <%= f.submit "Sign in" %>
+  </div>
+<% end %>
+
+
+<%= link_to("Incorrect token ?  Get a new one !", password_sessions_path) if @invalid_token %> 

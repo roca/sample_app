@@ -2,7 +2,14 @@ SampleApp::Application.routes.draw do
   
  resources :microposts,    :only => [:create, :destroy]
  resources :relationships, :only => [:create, :destroy]
- resources :sessions,      :only => [:new, :create , :destroy]
+ resources :sessions,      :only => [:new, :create , :destroy] do
+   collection do
+     get :password
+     get :token
+     post :send_password_request
+     post :create_with_token
+   end
+ end
  resources :users do
    member do
      get :following, :followers

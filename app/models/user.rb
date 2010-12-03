@@ -31,6 +31,7 @@ class User < ActiveRecord::Base
                                    :source => :followed
    has_many :followers,            :through => :reverse_relationships,
                                    :source => :follower
+   has_one  :activation_token,     :dependent   => :destroy
    
    email_regex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
    
@@ -76,6 +77,12 @@ class User < ActiveRecord::Base
        user = find_by_id(id)
        (user && user.salt == cookie_salt) ? user : nil
    end
+
+   def self.authenticate_with_token(id,token)
+        user = find_by_id(id)
+        token = ActivationToken.find_by_token(token)
+        (user && token && user == token.user) ? user : nil
+    end
 
   
   private

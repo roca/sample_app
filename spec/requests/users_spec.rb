@@ -60,8 +60,48 @@ describe "Users" do
           controller.should_not be_signed_in
         end
       end
+  end
+  
+ describe "sign in with token" do
+    
+    describe "failure" do
+      it "should not sign a user if email of token is incorrect" do
+        visit token_sessions_path
+        fill_in :email,    :with => ""
+        fill_in :token,    :with => ""
+        click_button
+        response.should have_selector("div.flash.error", :content => "Invalid")
+        response.should render_template('sessions/token')
+      end
     end
-  
-  
+ 
+    describe "success" do
+      it "should sign a user in" do
+        user = Factory(:user)
+        activation_token = Factory(:activation_token, :user => user, :token => Factory.next(:token))
+      
+        visit token_sessions_path
+        fill_in :email,    :with => user.email
+        fill_in :token,    :with => user.activation_token.token
+        click_button
+        controller.should be_signed_in
+        response.should render_template("users/edit")
+      end
+    end
+  end
+   
+ describe "password request" do
+    
+           it "should redirect to token_sessions_path if email exists" do
+              user = Factory(:user)
+              visit password_sessions_path
+              fill_in :email,    :with => user.email
+              click_button
+              response.should render_template('sessions/token')
+            end
+        
+ end
+ 
+ 
   
 end

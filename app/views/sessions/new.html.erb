@@ -14,5 +14,8 @@
   </div>
 <% end %>
 
+
+<%= link_to("Forgot your password ?", password_sessions_path) if @forgot_password %> 
+
 <p>New user? <%= link_to "Sign up now!", signup_path %></p>
 

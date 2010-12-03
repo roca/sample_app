@@ -1,6 +1,10 @@
 module SessionsHelper
   
   def sign_in(user)
+    
+     activation_token = ActivationToken.find_by_user_id(user)
+     activation_token.destroy if activation_token
+    
     cookies.permanent.signed[:remember_token] = [user.id, user.salt]
     current_user = user
   end

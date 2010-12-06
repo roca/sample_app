@@ -52,6 +52,19 @@ class User < ActiveRecord::Base
     self.encrypted_password == encrypt(submitted_password)
   end
   
+  def active?
+    !ActivationToken.find_by_user_id(self)
+  end
+  
+  def activate
+       activation_token = ActivationToken.find_by_user_id(self)
+       activation_token.destroy if activation_token
+  end
+    
+  def deactivate
+    create_activation_token({:token => Digest::SHA2.hexdigest("#{Time.now.utc}--#{email}")})
+   end
+   
   def feed
     Micropost.from_users_followed_by(self)
   end

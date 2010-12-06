@@ -284,6 +284,7 @@ describe User do
 
         before(:each) do
           @user =  Factory(:user)
+          @user_with_out_token = Factory(:user , :email => Factory.next(:email))
           @token = Factory(:activation_token, :user => @user, :token => Factory.next(:token))
         end
 
@@ -306,7 +307,44 @@ describe User do
            lambda do
             ActivationToken.find(@token.id)
            end.should raise_error(ActiveRecord::RecordNotFound)
-        end 
+        end
+        
+        it "should have a is_active? method" do
+          @user.should respond_to(:active?)
+        end
+        
+        
+        
+           it "should have a activate method" do
+             @user.should respond_to(:activate)
+           end 
+           
+           it "should remove user's token when user is activated"  do
+             @user.activate
+             @user.activation_token.should == nil
+             @user.active?.should be_true
+           end
+           
+           it "should have a deactivate method"  do
+             @user.should respond_to(:deactivate)            
+            end
+           
+           it "should give user a token when user is deactivated" do
+             @user_with_out_token.deactivate
+             @user_with_out_token.activation_token.should_not == nil
+             @user_with_out_token.active?.should be_false
+           end
+           
+        
+          it "should only have one activation token per user" do
+            lambda do
+              @user_with_out_token.deactivate
+              @user_with_out_token.deactivate
+              @user_with_out_token.deactivate
+            end.should change(ActivationToken,:count).by(1)
+           end
+         
+          
     end
 
 end

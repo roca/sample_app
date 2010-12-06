@@ -37,6 +37,13 @@ describe ActivationToken do
           @user.build_activation_token(:token => "    ").should_not be_valid
        end
   
+            it "should only have one activation_token per user" do
+              lambda do
+                 @user.create_activation_token(:token => "test").should
+                @user.create_activation_token(:token => "test").should
+                @user.create_activation_token(:token => "test").should
+              end.should change(ActivationToken,:count).by(1)
+            end
        
      end
  end

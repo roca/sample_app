@@ -4,6 +4,7 @@ describe UserMailer do
   
   before(:each) do
     @user = Factory(:user)
+    @user.deactivate
     @email = UserMailer.send_password_request(@user)
   end
   

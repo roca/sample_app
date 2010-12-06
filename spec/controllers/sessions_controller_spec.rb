@@ -10,7 +10,7 @@ describe SessionsController do
       get :new
       response.should be_success
     end
-    
+   
     
     it "should have the right title" do
       get :new
@@ -76,7 +76,7 @@ describe SessionsController do
         end
       end
   
-      describe "valid sign" do
+      describe "valid sign in " do
         
         before(:each) do
           @user = Factory(:user)
@@ -232,6 +232,6 @@ describe SessionsController do
           end
                  
    
- end
+  end
 
 end

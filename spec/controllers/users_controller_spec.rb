@@ -194,27 +194,29 @@ describe UsersController do
                 }
         end
 
-        it "should redirect to the 'show' page" do
-           post :create , :user => @attr
-           response.should redirect_to(user_path(assigns(:user)))
+        it "should render the token page" do
+          post :create , :user => @attr
+          flash.now[:success].should =~ /A temporary activation token has been sent to #{@attr[:email]}/i
+          response.should render_template('token')
         end
-
+ 
         it "should create a new user" do
+           lambda do
+             post :create , :user => @attr
+           end.should change(User,:count).by(1)
+        end
+ 
+        it "should send an email and create a user activation token" do
           lambda do
             post :create , :user => @attr
-          end.should change(User,:count).by(1)
+          end.should change(ActivationToken,:count).by(1)
         end
-
-        it 'should have a welcome message' do
-           post :create , :user => @attr
-           flash[:success].should =~ /welcome to the sample app/i
-        end
-         
+        
         it "should sign the user in" do
             post :create , :user => @attr
             controller.should be_signed_in
         end
-
+               
      end
   end
   

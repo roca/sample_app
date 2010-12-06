@@ -27,8 +27,8 @@ describe "Users" do
              fill_in "Password",     :with => "foobar"
              fill_in "Confirmation", :with => "foobar"
              click_button
-             response.should have_selector("div.flash.success", :content => "Welcome")
-             response.should render_template('users/show')
+             response.should have_selector("div.flash.success", :content => "A temporary activation token has been sent to")
+             response.should render_template('sessions/token')
          end.should change(User,:count).by(1)
         end
     end

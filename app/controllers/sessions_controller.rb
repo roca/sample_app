@@ -62,7 +62,10 @@ class SessionsController < ApplicationController
         
         user = User.where("lower(email) = ?",email.downcase).first
         
+        
+        
         if user
+          user.deactivate
           UserMailer.send_password_request(user).deliver
           flash.now[:success]= "A temporary activation token has been sent to #{user.email}"
           render 'token'

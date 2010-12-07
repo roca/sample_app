@@ -22,6 +22,14 @@ describe SessionsController do
         response.should_not have_selector("a", :href => password_sessions_path ,  :content => "Forgot your password?")
     end
     
+    it "should have new form " do
+          get :new
+          response.should have_selector( "form" , :method => "post", :action => "/sessions" ) do |form|
+            form.should have_selector("input", :type => "text",      :name => "session[email]")
+            form.should have_selector("input", :type => "password",  :name => "session[password]")
+            form.should have_selector("input", :type => "submit")
+          end
+      end
     
   end
   
@@ -43,6 +51,15 @@ describe SessionsController do
            get :token
            response.should_not have_selector("a", :href => password_sessions_path ,  :content => "Incorrect toke get a new one !")
        end
+       
+       it "should have token form " do
+            get :token
+            response.should have_selector( "form" , :method => "post", :action => "/sessions/create_with_token" ) do |form|
+              form.should have_selector("input", :type => "text",      :name => "session[email]")
+              form.should have_selector("input", :type => "password",  :name => "session[token]")
+              form.should have_selector("input", :type => "submit")
+            end
+        end
 
   end
   
@@ -191,7 +208,7 @@ describe SessionsController do
           response.should redirect_to(root_path)
         end
         
-    end
+  end
     
   describe "GET 'password' for forgotten password page" do
      it "should be successful" do
@@ -203,6 +220,15 @@ describe SessionsController do
         get :password
         response.should have_selector("title", :content => "Forgotten password")
       end
+      
+      it "should have password form " do
+           get :password
+           response.should have_selector( "form" , :method => "post", :action => "/sessions/send_password_request" ) do |form|
+             form.should have_selector("input", :type => "text",     :name => "session[email]")
+             form.should have_selector("input", :type => "submit")
+           end
+       end  
+      
   end
 
   describe "POST 'send_password_request'" do

@@ -151,6 +151,18 @@ describe UsersController do
       get :new
       response.should have_selector("title", :content => "Sign up")
     end
+    
+    
+     it "should have new user form " do
+         get :new
+         response.should have_selector( "form" , :method => "post", :action => "/users" ) do |form|
+           form.should have_selector("input", :type => "text",     :name => "user[name]")
+           form.should have_selector("input", :type => "text",     :name => "user[email]")
+           form.should have_selector("input", :type => "password", :name => "user[password_confirmation]")
+           form.should have_selector("input", :type => "password", :name => "user[password]")
+           form.should have_selector("input", :type => "submit")
+         end
+     end  
   end
   
   describe "POST 'create'" do
@@ -242,6 +254,16 @@ describe UsersController do
                                             :content => 'change')
       end
      
+      it "should have edit user form " do
+             get :edit, :id => @user
+             response.should have_selector( "form" , :method => "post", :action => "/users/#{@user.id}" ) do |form|
+               form.should have_selector("input", :type => "text",     :name => "user[name]")
+               form.should have_selector("input", :type => "text",     :name => "user[email]")
+               form.should have_selector("input", :type => "password", :name => "user[password_confirmation]")
+               form.should have_selector("input", :type => "password", :name => "user[password]")
+               form.should have_selector("input", :type => "submit")
+           end
+       end
     
   end
 

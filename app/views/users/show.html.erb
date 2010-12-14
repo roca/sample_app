@@ -8,7 +8,7 @@
       <%= render 'follow_form' if signed_in? %>
     <% if @user.microposts.any? %>
        
-       <%= render 'shared/search_form' , :path => user_path(@user) %><br/>
+       <%= render 'shared/search_form' , :path => user_path(@user) , :lable => 'Microposts'%><br/>
         <table class="microposts" summary="User microposts">
          <%= render @microposts %>
         </table>

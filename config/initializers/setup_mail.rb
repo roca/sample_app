@@ -21,7 +21,7 @@ ActionMailer::Base.smtp_settings = {
 #   :domain => "RomelCampbell.com", 
 #   :authentication => :plain, 
 #   :user_name => "RomelCampbell@gmail.com", 
-#   :password => "g00gl3m81l"
+#   :password => "..........."
 # }
 
 

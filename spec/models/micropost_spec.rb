@@ -76,4 +76,63 @@ describe Micropost do
        
        end
      end
+
+     describe "search method" do
+
+       before(:each) do
+          @other_user = Factory(:user, :email => Factory.next(:email))
+          @third_user = Factory(:user, :email => Factory.next(:email))
+
+          @user_post  = @user.microposts.create!(:content => "foo")
+          @other_post = @other_user.microposts.create!(:content => "bar")
+          @third_post = @third_user.microposts.create!(:content => "baz")
+
+          @user.follow!(@other_user)
+         end
+
+             it "should have an search method" do
+              Micropost.should respond_to(:search)
+             end
+
+             it "should return array from search" do
+               Micropost.search(@user_post.content).should == [@user_post]
+             end
+
+             it "should serach content columns and except string fragments" do
+                Micropost.search(@user_post.content[1,2]).should  include(@user_post)
+             end
+
+             it "should serach name and email columns and except string fragments ignoring case" do
+                  Micropost.search(@user_post.content[1,2].upcase).should  include(@user_post)
+             end
+
+             it "should allow for mutiple key words to narrow down search" do
+                 fragment_1 = @user_post.content
+                 fragment_2 = @third_post.content
+                 Micropost.search("#{fragment_1}").should include(@user_post)
+                 Micropost.search("#{fragment_2}").should include(@third_post)
+                 Micropost.search("#{fragment_1} #{fragment_2}").count == 0
+             end
+
+
+             it "should return all records from blank search" do
+               Micropost.search(" ").should == Micropost.all
+             end
+
+             it "should not search unfollowed user's microposts" do
+               Micropost.from_users_followed_by(@user).search(@other_post.content).should_not include(@third_post)
+               Micropost.from_users_followed_by(@user).search(" ").should_not include(@third_post)
+             end
+ 
+             it "should search followed user's microposts" do
+                Micropost.from_users_followed_by(@user).search(@other_post.content).should include(@other_post)
+             end
+
+             it "should not search all microposts" do
+               Micropost.from_users_followed_by(@user).search(" ").should_not == Micropost.all
+             end
+
+     end
+
+
 end

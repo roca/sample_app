@@ -68,6 +68,15 @@ describe UsersController do
            end
         end
         
+        
+         it "should have search form " do
+                get :index , :search => "omel"
+                response.should have_selector( "form" , :method => "get", :action => "/users" ) do |form|
+                  form.should     have_selector( "input", :type => "text",  :name => "search", :value => 'omel')
+                  form.should     have_selector( "input", :type => "submit")
+                end
+         end
+        
     end
     
   end
@@ -138,6 +147,16 @@ describe UsersController do
         end
        
      end
+     
+     it "should have search form " do
+             10.times { Factory(:micropost, :user => @user , :content => "foo") }
+             get :show, :id => @user, :search => "omel"
+             response.should have_selector( "form" , :method => "get", :action => user_path(@user) ) do |form|
+               form.should     have_selector( "input", :type => "text",  :name => "search", :value => 'omel')
+               form.should     have_selector( "input", :type => "submit")
+             end
+      end
+     
   end
 
   describe "GET 'new'"     do

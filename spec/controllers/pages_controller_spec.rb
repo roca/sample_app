@@ -9,7 +9,7 @@ describe PagesController do
 
   describe "GET 'home'" do
     
-    describe "when not signed in" do
+  describe "when not signed in" do
       
       it "should be successful" do
         get 'home'
@@ -28,7 +28,7 @@ describe PagesController do
       end
     end
   
-    describe "when signed in" do
+  describe "when signed in" do
       before(:each) do
         @user = test_sign_in(Factory(:user))
         other_user = Factory(:user, :email => Factory.next(:email))
@@ -43,11 +43,19 @@ describe PagesController do
                                            :content => '1 follower')
       end
       
+      it "should have search form " do
+             get 'home' , :search => "omel"
+             response.should have_selector( "form" , :method => "get", :action => root_path ) do |form|
+               form.should     have_selector( "input", :type => "text",  :name => "search", :value => 'omel')
+               form.should     have_selector( "input", :type => "submit")
+             end
+      end
    
       
     end  
+  
   end
-
+  
   describe "GET 'contact'" do
     it "should be successful" do
       get 'contact'

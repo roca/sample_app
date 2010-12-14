@@ -347,6 +347,48 @@ describe User do
           
     end
 
+    describe "search method" do
+      
+      before(:each) do
+        @first_user  = Factory(:user)
+        @second_user = Factory(:user , :email => Factory.next(:email))
+        @third_user  = Factory(:user , :email => Factory.next(:email))
+      end
+ 
+            it "should have an search method" do
+             User.should respond_to(:search)
+            end
+  
+            it "should return array from search" do
+              User.search(@first_user.email).should == [@first_user]
+            end
+            
+            it "should serach name and email columns and except string fragments" do
+               User.search(@first_user.name[1,5]).should  include(@first_user)
+               User.search(@first_user.email[1,5]).should  include(@first_user)
+            end
+            
+            it "should serach name and email columns and except string fragments ignoring case" do
+                  User.search(@first_user.name[1,5].upcase).should  include(@first_user)
+                  User.search(@first_user.email[1,5].downcase).should  include(@first_user)
+            end
+                 
+            it "should allow for mutiple key words to narrow down search" do
+                fragment_1 = @first_user.email
+                fragment_2 = @third_user.email
+                User.search("#{fragment_1}").should include(@first_user)
+                User.search("#{fragment_2}").should  include(@third_user)
+                User.search("#{fragment_1} #{fragment_2}").count == 0
+            end
+                                 
+             
+            it "should return all records from blank search" do
+              User.search(" ").should == User.all
+            end
+  
+
+         
+    end
 end
       
      

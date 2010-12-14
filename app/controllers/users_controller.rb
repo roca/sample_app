@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   before_filter :admin_user,   :only => :destroy
   
   def index
-    @users = User.paginate(:page => params[:page])
+    @users = User.search(params[:search]).paginate(:page => params[:page])
     @title = 'All users'
   end
   
@@ -16,7 +16,7 @@ class UsersController < ApplicationController
   
   def show
       @user  = User.find(params[:id])
-      @microposts = @user.microposts.paginate(:page => params[:page])
+      @microposts = @user.microposts.search(params[:search]).paginate(:page => params[:page])
       @title = @user.name
   end
   

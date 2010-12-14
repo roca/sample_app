@@ -1,10 +1,13 @@
 <% if signed_in? %>
 
+
+
  <table class="front" summary="For signed-in users">
     <tr>
       <td class="main">
         <h1 class="micropost">What's up?</h1>
         <%= render 'shared/micropost_form' %>
+        <%= render 'shared/search_form' , :path => root_path %><br/>
         <%= render 'shared/feed' %>
       </td>
       <td class="sidebar round">

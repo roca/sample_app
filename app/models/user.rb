@@ -48,6 +48,8 @@ class User < ActiveRecord::Base
 
   before_save :encrypt_password
   
+   scope :search , lambda { |fragment| search_by_string_fragment(fragment)}
+  
   def has_password?(submitted_password)
     self.encrypted_password == encrypt(submitted_password)
   end
@@ -80,6 +82,8 @@ class User < ActiveRecord::Base
   def unfollow!(followed)
     relationships.find_by_followed_id(followed).destroy
   end
+  
+ 
   
    def self.authenticate(email,submitted_password)
     user = find_by_email(email)
@@ -118,4 +122,18 @@ class User < ActiveRecord::Base
       def secure_hash(string)
         Digest::SHA2.hexdigest(string)
       end
+      
+      def self.search_by_string_fragment(fragment)
+         if fragment.blank?
+           all
+         else
+           query_array = Array.new
+           fragment.split.each { |f|
+             query_array << "(email like '%#{f}%' or name like '%#{f}%')"
+           }
+           
+           where(query_array.join(" and ")) 
+         end
+
+       end
 end

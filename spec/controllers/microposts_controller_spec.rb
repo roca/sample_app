@@ -64,7 +64,7 @@ describe MicropostsController do
                flash[:success].should =~ /micropost created/i
              end
     end
-  end
+ end
 
  describe "DELETE 'destroy'" do
 

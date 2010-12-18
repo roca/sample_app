@@ -39,17 +39,24 @@ class Micropost < ActiveRecord::Base
   end
   
   def self.search_by_string_fragment(fragment)
-       if fragment.blank?
-         all
-       else
-         query_array = Array.new
-         fragment.split.each { |f|
-           query_array << "(content like '%#{f}%')"
-         }
-         
-         where(query_array.join(" and ")) 
-       end
+    
+    
+        if fragment.blank?
+          all
+        else
+          fragments = fragment.split
+          
+          first_fragment = fragments.shift
+          result = where("(content like :content)",{:content => "%#{first_fragment}%"})   
+                
+          fragments.each { |f|
+            result = result.where("(content like :content)",{:content => "%#{f}%"})
+          }
+          
+        end
+        
+        return result
   
-     end
+  end
    
 end

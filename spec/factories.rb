@@ -1,5 +1,6 @@
 Factory.define :user do |user|
   user.name                   "Romel Campbell"
+  user.username               "desertfox1"
   user.email                  "RomelCampbell@gmail.com"
   user.password               "foobar"
   user.password_confirmation  "foobar"
@@ -8,6 +9,11 @@ end
 Factory.sequence :email do |n|
    "person-#{n}@example.com"
 end
+
+Factory.sequence :username do |n|
+   "person_#{n}"
+end
+
 
 Factory.sequence :token do |n|
    "#{Time.now.utc}---#{n}testtoken"

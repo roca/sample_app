@@ -18,11 +18,9 @@ describe UsersController do
       
       before(:each) do
         @user = test_sign_in(Factory(:user))
-        Factory(:user,:email => "another@example.net")
-        Factory(:user,:email => "another@example.com")
         
         30.times do
-          Factory(:user,:email => Factory.next(:email) )
+          Factory(:user, :username => Factory.next(:username),:email => Factory.next(:email) )
         end
       end
       
@@ -104,12 +102,12 @@ describe UsersController do
     
     it "should have the users name" do
       get :show, :id => @user
-      response.should have_selector("h1", :content => @user.name)
+      response.should have_selector("td", :content => @user.name)
     end
     
     it "should have a profile image" do
       get :show, :id => @user
-      response.should have_selector("h1>img", :class => "gravatar")
+      response.should have_selector("td>img", :class => "gravatar")
     end
     
     it "should have the right URL" do
@@ -141,7 +139,7 @@ describe UsersController do
      describe "when signed in as another user" do
        
         it "should be successfull" do
-          test_sign_in(Factory(:user, :email => Factory.next(:email)))
+          test_sign_in(Factory(:user, :username => Factory.next(:username), :email => Factory.next(:email)))
           get :show, :id => @user
           response.should be_success
         end
@@ -189,7 +187,8 @@ describe UsersController do
      describe "failure" do
        
        before(:each) do
-        @attr = { :name                   => "", 
+        @attr = {:name                   => "", 
+                 :username               => "",
                  :email                  => "",
                  :password               => "", 
                  :password_confirmation  => ""
@@ -218,7 +217,8 @@ describe UsersController do
      describe "Success" do
 
         before(:each) do
-         @attr = {:name                  => "Romel Campbell", 
+         @attr = {:name                   => "Romel Campbell", 
+                  :username               => "desertfox",
                   :email                  => "RomelCampbell@gmail.com",
                   :password               => "foobar", 
                   :password_confirmation  => "foobar"
@@ -363,7 +363,7 @@ describe UsersController do
     
     describe "for signed-in users" do
       before(:each) do
-        wrong_user = Factory(:user,:email => "user@example.net")
+        wrong_user = Factory(:user, :username => Factory.next(:username),:email => "user@example.net")
         test_sign_in(wrong_user)
       end
       
@@ -406,7 +406,7 @@ describe UsersController do
     describe "as a admin user" do
       
       before(:each) do
-        @admin = Factory(:user, :email => "admin@example.com" , :admin => true)
+        @admin = Factory(:user, :username => Factory.next(:username), :email => "admin@example.com" , :admin => true)
         test_sign_in(@admin)
       end
       
@@ -452,7 +452,7 @@ describe UsersController do
         
         before(:each) do
           @user = test_sign_in(Factory(:user))
-          @other_user = Factory(:user,:email => Factory.next(:email))
+          @other_user = Factory(:user, :username => Factory.next(:username),:email => Factory.next(:email))
           @user.follow!(@other_user)
         end
         

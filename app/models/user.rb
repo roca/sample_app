@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
   
   
    attr_accessor   :password
-   attr_accessible :name, :email, :password, :password_confirmation
+   attr_accessible :name, :username, :email, :password, :password_confirmation
    
    has_many :microposts,           :dependent   => :destroy
    has_many :relationships,        :dependent   => :destroy,
@@ -33,11 +33,18 @@ class User < ActiveRecord::Base
                                    :source => :follower
    has_one  :activation_token,     :dependent   => :destroy
    
-   email_regex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+   email_regex    = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+   username_regex = /^[\w-]+$/i
    
    
    validates :name,     :presence     => true, 
                         :length       => { :maximum        => 50}
+                       
+   validates :username, :presence     => true,
+                        :length       => { :maximum        => 50},
+                        :format       => { :with           => username_regex },
+                        :uniqueness   => { :case_sensitive => false}
+                        
    validates :email,    :presence     => true,
                         :format       => { :with           => email_regex },
                         :uniqueness   => { :case_sensitive => false}
@@ -86,7 +93,7 @@ class User < ActiveRecord::Base
  
   
    def self.authenticate(email,submitted_password)
-    user = find_by_email(email)
+    user = find_by_email(email) || find_by_username(email)
     (user && user.has_password?(submitted_password)) ? user : nil
    end
 
@@ -127,13 +134,20 @@ class User < ActiveRecord::Base
          if fragment.blank?
            all
          else
-           query_array = Array.new
-           fragment.split.each { |f|
-             query_array << "(email like '%#{f}%' or name like '%#{f}%')"
+           fragments = fragment.split
+           
+           first_fragment = fragments.shift
+           fragment_hash = {:email => "%#{first_fragment}%", :name => "%#{first_fragment}%", :username => "%#{first_fragment}%"}          
+           result = where("(email like :email or name like :name  or username like :username)",fragment_hash)   
+                 
+           fragments.each { |f|
+             fragment_hash = {:email => "%#{f}%", :name => "%#{f}%", :username => "%#{f}%"}          
+             result = result.where("(email like :email or name like :name  or username like :username)",fragment_hash)
            }
            
-           where(query_array.join(" and ")) 
          end
+         
+         return result
 
-       end
+      end
 end

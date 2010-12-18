@@ -3,7 +3,13 @@ class PagesController < ApplicationController
     @title = "Home"
     if signed_in?
       @micropost = Micropost.new 
-      @feed_items = current_user.feed.search(params[:search]).paginate(:page => params[:page])
+      if (params[:search] && params[:search].match(/^[\w+\s+\-.@]+$/i) ) or params[:search].blank?
+          @feed_items = current_user.feed.search(params[:search]).paginate(:page => params[:page])
+        else
+          flash.now[:error] = "Invalid characters used. Avoid using \, or \' or \" in search"
+          @feed_items = current_user.feed.paginate(:page => params[:page])
+      end
+      
     end
   end
 

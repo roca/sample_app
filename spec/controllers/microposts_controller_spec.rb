@@ -68,13 +68,11 @@ describe MicropostsController do
 
  describe "DELETE 'destroy'" do
 
-   
-
    describe "for an unauthorized user" do
      
        before(:each) do
          @user = Factory(:user)
-         wrong_user = Factory(:user,:email => Factory.next(:email))
+         wrong_user = Factory(:user, :username => Factory.next(:username),:email => Factory.next(:email))
          @micropost = Factory(:micropost, :user => @user)
          test_sign_in(wrong_user)
        end

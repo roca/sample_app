@@ -4,6 +4,7 @@ describe User do
   
   before(:each) do
    @attr = { :name                   => "Excample user", 
+             :username               => "desertfox2",
              :email                  => "user@example.com",
              :password               => "foobar", 
              :password_confirmation  => "foobar"
@@ -19,11 +20,11 @@ describe User do
     no_name_user.should_not be_valid
   end
   
-  it "should require a name" do
+  it "should require a email" do
     no_email_user = User.new(@attr.merge(:email => ""))
     no_email_user.should_not be_valid
   end
-  
+    
   it "should accept valid email addresses" do
       addresses = %w[user@foo.com THE_USER@foo.bar.org first.last@foo.jp]
       addresses.each do |address|
@@ -40,12 +41,38 @@ describe User do
       end
   end
   
-  it "should reject invalid email addresses" do 
-      addresses = %w[user@foo,com user_at_foo.org example.user@foo.] 
-      addresses.each do |address|
-        invalid_email_user = User.new(@attr.merge(:email => address))
-        invalid_email_user.should_not be_valid 
-      end
+  it "should require a username" do
+    no_username_user = User.new(@attr.merge(:username => ""))
+    no_username_user.should_not be_valid
+  end
+  
+  it "should accept valid username" do
+        usernames = %w[user1 user-100 user_person_100]
+        usernames.each do |username|
+          invalid_username_user = User.new(@attr.merge(:username => username))
+          invalid_username_user.should be_valid
+        end
+  end
+  
+  it "should reject invalid username" do
+        usernames = %w[user@foo,com user_at_foo.org example.user@foo. uer.name]
+        usernames.each do |username|
+          invalid_username_user = User.new(@attr.merge(:username => username))
+          invalid_username_user.should_not be_valid
+        end
+  end
+    
+   it "should reject user with duplicate username"    do
+         User.create!(@attr)
+         user_with_duplicate_username = User.new(@attr.merge(:email => Factory.next(:email)))
+         user_with_duplicate_username.should_not be_valid
+   end
+    
+  it "should reject usernames indentical up to case"   do
+        upcased_username = @attr[:username].upcase
+        User.create!(@attr.merge(:username => upcased_username,:email => Factory.next(:email)))
+        user_with_duplicate_username = User.new(@attr)
+        user_with_duplicate_username.should_not be_valid
   end
      
   it "should reject user with duplicate email" do
@@ -230,7 +257,7 @@ describe User do
       
       before(:each) do
         @user = Factory(:user)
-        @followed = Factory(:user, :email => Factory.next(:email))
+        @followed = Factory(:user,:username => Factory.next(:username), :email => Factory.next(:email))
       end
       
       it "should have a relationships method" do
@@ -284,7 +311,7 @@ describe User do
 
         before(:each) do
           @user =  Factory(:user)
-          @user_with_out_token = Factory(:user , :email => Factory.next(:email))
+          @user_with_out_token = Factory(:user ,:username => Factory.next(:username), :email => Factory.next(:email))
           @token = Factory(:activation_token, :user => @user, :token => Factory.next(:token))
         end
 
@@ -350,9 +377,9 @@ describe User do
     describe "search method" do
       
       before(:each) do
-        @first_user  = Factory(:user)
-        @second_user = Factory(:user , :email => Factory.next(:email))
-        @third_user  = Factory(:user , :email => Factory.next(:email))
+        @first_user  = Factory(:user,:username => Factory.next(:username))
+        @second_user = Factory(:user,:username => Factory.next(:username), :email => Factory.next(:email))
+        @third_user  = Factory(:user,:username => Factory.next(:username), :email => Factory.next(:email))
       end
  
             it "should have an search method" do
@@ -363,19 +390,21 @@ describe User do
               User.search(@first_user.email).should == [@first_user]
             end
             
-            it "should serach name and email columns and except string fragments" do
-               User.search(@first_user.name[1,5]).should  include(@first_user)
-               User.search(@first_user.email[1,5]).should  include(@first_user)
-            end
+            it "should search name, username and email columns and except string fragments" do
+               User.search(@first_user.name[1,5]).should      include(@first_user)
+               User.search(@first_user.username[1,5]).should  include(@first_user)
+               User.search(@first_user.email[1,5]).should     include(@first_user)
+             end
             
-            it "should serach name and email columns and except string fragments ignoring case" do
-                  User.search(@first_user.name[1,5].upcase).should  include(@first_user)
-                  User.search(@first_user.email[1,5].downcase).should  include(@first_user)
+            it "should search name, username and email columns and except string fragments ignoring case" do
+                  User.search(@first_user.name[1,5].upcase).should        include(@first_user)
+                  User.search(@first_user.email[1,5].downcase).should     include(@first_user)
+                  User.search(@first_user.username[1,5].downcase).should  include(@first_user)
             end
                  
             it "should allow for mutiple key words to narrow down search" do
                 fragment_1 = @first_user.email
-                fragment_2 = @third_user.email
+                fragment_2 = @third_user.username
                 User.search("#{fragment_1}").should include(@first_user)
                 User.search("#{fragment_2}").should  include(@third_user)
                 User.search("#{fragment_1} #{fragment_2}").count == 0

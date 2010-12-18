@@ -5,8 +5,13 @@ class UsersController < ApplicationController
   before_filter :admin_user,   :only => :destroy
   
   def index
-    @users = User.search(params[:search]).paginate(:page => params[:page])
-    @title = 'All users'
+    if (params[:search] && params[:search].match(/^[\w+\s+\-.@]+$/i) ) or params[:search].blank?
+        @users = User.search(params[:search]).paginate(:page => params[:page])
+     else
+        flash.now[:error] = "Invalid characters used. Avoid using \, or \' or \" in search"
+        @users = User.paginate(:page => params[:page])
+     end
+      @title = 'All users'
   end
   
   def new
@@ -16,7 +21,12 @@ class UsersController < ApplicationController
   
   def show
       @user  = User.find(params[:id])
-      @microposts = @user.microposts.search(params[:search]).paginate(:page => params[:page])
+      if (params[:search] && params[:search].match(/^[\w+\s+\-.@]+$/i) ) or params[:search].blank?
+          @microposts = @user.microposts.search(params[:search]).paginate(:page => params[:page])
+        else
+          flash.now[:error] = "Invalid characters used. Avoid using \, or \' or \" in search"
+          @microposts = @user.microposts.paginate(:page => params[:page])
+      end
       @title = @user.name
   end
   

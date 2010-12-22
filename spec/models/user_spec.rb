@@ -206,14 +206,24 @@ describe User do
 
         before(:each) do
           @user = User.create(@attr)
+          @another_user = Factory(:user,:username => Factory.next(:username),:email => Factory.next(:email))
           @mp1 = Factory(:micropost, :user => @user, :created_at => 1.day.ago)
           @mp2 = Factory(:micropost, :user => @user, :created_at => 1.hour.ago)
+          @mp3 = Factory(:micropost, :user => @another_user, :created_at => 1.hour.ago, :in_reply_to => @user)
         end
 
         it "should have a microposts attribute" do
-          @user.should respond_to(:microposts)
+           @user.should respond_to(:microposts)
         end
-
+        
+        it "should have a microposts_from_others attribute" do
+            @user.should respond_to(:microposts_from_others)
+        end
+ 
+        it "should have the right microposts from others" do
+          @user.microposts_from_others.should == [@mp3]
+        end
+ 
         it "should have the right microposts in the right order" do
           @user.microposts.should == [@mp2,@mp1]
         end

@@ -26,6 +26,28 @@ describe Micropost do
        end
      end
      
+     describe "in_reply_to methods"  do
+      
+      before(:each) do
+         @another_user = Factory(:user, :username => Factory.next(:username), :email => Factory.next(:email))
+         @attr2 = { :content => "@#{@user.username} micropost directed at #{@user.name}" ,:in_reply_to => @user}
+         @microposts = @another_user.microposts.create(@attr2)
+       end
+
+       it "should have a in_reply_to attribute" do
+          @microposts.should respond_to(:in_reply_to)
+        end
+        it "should have a recipient attribute" do
+           @microposts.should respond_to(:recipient)
+         end
+         
+         it "should belong to a recipient" do
+            @microposts.in_reply_to.should == @user.id
+            @microposts.recipient.should == @user 
+            @user.microposts_from_others[0].should == @microposts
+         end
+    end
+     
      describe "validations" do
        
        it "should have a user id" do
@@ -49,7 +71,7 @@ describe Micropost do
          
          @user_post  = @user.microposts.create!(:content => "foo")
          @other_post = @other_user.microposts.create!(:content => "bar")
-         @third_post = @third_user.microposts.create!(:content => "baz")
+         @third_post = @third_user.microposts.create!(:content => "baz", :in_reply_to => @user)
          
          @user.follow!(@other_user)
         end
@@ -73,6 +95,13 @@ describe Micropost do
         it "should not include an unfollowed user's microposts" do
       
           Micropost.from_users_followed_by(@user).should_not include(@third_post)
+       
+       end
+       
+       
+       it "should include an unfollowed user's microposts if micropost was sent to user" do
+      
+          Micropost.from_users_sent_to(@user).should include(@third_post)
        
        end
      end

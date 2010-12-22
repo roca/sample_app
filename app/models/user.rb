@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20101113102412
+# Schema version: 20101219101824
 #
 # Table name: users
 #
@@ -11,6 +11,7 @@
 #  encrypted_password :string(255)
 #  salt               :string(255)
 #  admin              :boolean
+#  username           :string(255)
 #
 
 
@@ -21,7 +22,11 @@ class User < ActiveRecord::Base
    attr_accessor   :password
    attr_accessible :name, :username, :email, :password, :password_confirmation
    
-   has_many :microposts,           :dependent   => :destroy
+   has_many :microposts,             :dependent   => :destroy
+   has_many :microposts_from_others, :dependent   => :destroy,
+                                     :foreign_key => "in_reply_to",
+                                     :class_name =>  "Micropost"
+                                     
    has_many :relationships,        :dependent   => :destroy,
                                    :foreign_key => "follower_id"                  
    has_many :reverse_relationships,:dependent   => :destroy,
@@ -75,7 +80,7 @@ class User < ActiveRecord::Base
    end
    
   def feed
-    Micropost.from_users_followed_by(self)
+    Micropost.from_users_sent_to_or_from_users_followed_by(self)
   end
   
   def following?(followed)

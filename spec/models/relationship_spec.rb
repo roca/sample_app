@@ -34,6 +34,18 @@ describe Relationship do
        it "should have the right followed user" do
           @relationship.followed.should == @followed
        end
+       
+       it "should destroy relationship" do
+          Relationship.find(@relationship).should_not be_nil
+          @followed.destroy
+          Relationship.find_by_id(@relationship).should be_nil
+       end
+       
+       it "should destroy relationship" do
+          Relationship.find(@relationship).should_not be_nil
+          @follower.destroy
+          Relationship.find_by_id(@relationship).should be_nil
+       end
         
      end
        

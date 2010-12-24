@@ -1,3 +1,5 @@
+<%= javascript_include_tag 'jquery.ba-url', 'pagination' %>
+
 <% if signed_in? %>
 
 
@@ -8,7 +10,9 @@
         <h1 class="micropost">What's up?</h1>
         <%= render 'shared/micropost_form' %>
         <%= render 'shared/search_form' , :path => root_path , :lable => 'Feeds'%><br/>
+<div id='paginated_list'>
         <%= render 'shared/feed' %>
+</div>
       </td>
       <td class="sidebar round">
         <%= render 'shared/user_info' %>

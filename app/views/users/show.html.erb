@@ -1,3 +1,6 @@
+
+<%= javascript_include_tag 'jquery.ba-url', 'pagination' %>
+
 <table class="profile" summary="Profile information">
   <tr>
     <td class="main">
@@ -21,10 +24,11 @@
     <% if @user.microposts.any? %>
        
        <%= render 'shared/search_form' , :path => user_path(@user) , :lable => 'Microposts'%><br/>
-        <table class="microposts" summary="User microposts">
-         <%= render @microposts %>
-        </table>
-        <%= will_paginate @microposts %>
+
+<div id='paginated_list'>
+       <%= render 'microposts' %>
+</div>
+	
     <% end %>
     </td>
     <td class="sidebar round">

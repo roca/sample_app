@@ -1,18 +1,14 @@
 <h1> All users </h1>
 
+<%= javascript_include_tag 'jquery.ba-url', 'pagination' %>
 
 <%= render 'shared/search_form' , :path => users_path,  :lable => 'Users' %>
 
 
+<div id='paginated_list'>
 
-<%= will_paginate %>
+	
+		<%= render 'users' %>
+	
 
-<ul class="users">
-	
-	
-	<%= render @users %>
-	
-	
-</ul>
-
-<%= will_paginate %>
+</div>

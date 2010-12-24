@@ -1,2 +1,2 @@
-$("follow_form").update("<%= escape_javascript(render('users/unfollow')) %>")
-$("followers").update("<%= pluralize(@user.followers.count,'follower') %>")
+$("#follow_form").html("<%= escape_javascript(render('users/unfollow')) %>")
+$("#followers").html("<%= pluralize(@user.followers.count,'follower') %>")

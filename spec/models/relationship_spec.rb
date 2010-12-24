@@ -10,8 +10,15 @@ describe Relationship do
   end
   
      it "should create a new instance with valid attributes" do
-       @follower.relationships.create!(@attr)
+       lambda do
+        @follower.relationships.create!(@attr)
+       end.should change(Relationship,:count).by(1)
      end
+     
+        it "should create a new instance with valid attributes once" do
+          @follower.relationships.create!(@attr)
+          @follower.relationships.build(@attr).should_not be_valid
+        end
      
      describe "follow methods" do
        

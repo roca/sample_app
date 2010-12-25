@@ -59,7 +59,7 @@ class Micropost < ActiveRecord::Base
     
     
         if fragment.blank?
-          all
+          scoped
         else
           fragments = fragment.split
           

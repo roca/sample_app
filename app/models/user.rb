@@ -137,7 +137,7 @@ class User < ActiveRecord::Base
       
       def self.search_by_string_fragment(fragment)
          if fragment.blank?
-           all
+           scoped
          else
            fragments = fragment.split
            

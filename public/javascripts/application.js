@@ -8,12 +8,7 @@
 
 jQuery.fn.submitWithAjax = function() {
   this.submit(function() {
-	$.post(this.action, 
-		$(this).serialize(), 
-		function(data) {   
-			 //alert('data');
-			}, 
-		"script");
+	$.post(this.action, $(this).serialize(), null, "script");
     return false;
   })
   return this;
@@ -27,5 +22,13 @@ $(document).ready(function() {
 	}
 
   );
+
+
+ $("#search_form").keyup(function() {
+    $.get($("#search_form").attr("action"), $("#search_form").serialize(), null, "script");
+    return false;
+  });
+
+
 })
 

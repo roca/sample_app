@@ -94,3 +94,21 @@ describe "LayoutLinks" do
       
   
 end
+
+describe "LayoutLinks for mobile device" do
+  
+  before(:each) do
+    visit root_path
+    click_link "Mobile Site"
+  end
+  
+  
+   it "should be a mobile_device" do
+      get '/'
+      controller.should be_mobile_device
+      response.should have_selector('a', :content => 'Full Site')
+    end
+    
+
+  
+end

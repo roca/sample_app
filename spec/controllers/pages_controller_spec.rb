@@ -6,8 +6,25 @@ describe PagesController do
   before(:each) do
     @base_title = "Ruby on Rails Tutorial Sample App"
   end
+  
+  
 
   describe "GET 'home'" do
+    
+    
+    it "should have a mobile_device? methond" do
+      get 'home', :mobile => 0.to_s
+      controller.should_not be_mobile_device
+      response.should have_selector('a', :content => 'Mobile Site')
+    end
+
+    it "should have a mobile_device? methond" do
+      get 'home', :mobile => 1.to_s
+      controller.should be_mobile_device
+      response.should have_selector('a', :content => 'Full Site')
+    end
+
+
     
   describe "when not signed in" do
       

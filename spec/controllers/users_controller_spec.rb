@@ -153,7 +153,18 @@ describe UsersController do
                form.should     have_selector( "input", :type => "text",  :name => "search", :value => 'omel')
                form.should     have_selector( "input", :type => "submit")
              end
-      end
+     end
+     
+     it "should have the right follower/following counts" do
+             @other_user = Factory(:user, :username => Factory.next(:username), :email => Factory.next(:email))
+             @user.follow!(@other_user)
+             @user.should be_following(@other_user)
+             get :show, :id => @user
+             response.should have_selector("a", :href => following_user_path(@user),
+                                                :content => "1 following")
+             response.should have_selector("a", :href => followers_user_path(@user),
+                                                :content => "0 followers")
+     end
      
   end
 

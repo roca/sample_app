@@ -1,0 +1,9 @@
+<div class="top toolbar">
+	<%= link_to "Back", nil, :class => "back" unless current_page? root_path %>
+    <% if signed_in? %>
+		<%= link_to "Sign out", signout_url,  :class => "button", :rel => "external"  %>
+	<% else %>
+		 <%= link_to "Sign in", signin_url, :class => "button", :rel => "external" %>
+	<% end %>
+</div>
+

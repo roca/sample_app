@@ -17,7 +17,7 @@ class SessionsController < ApplicationController
         # Create an error message and re-render the signin form.
       else
         sign_in user
-        redirect_back_or user
+        redirect_back_or root_path #user
       end
    
   end

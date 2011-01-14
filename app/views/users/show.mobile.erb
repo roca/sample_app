@@ -1,0 +1,5 @@
+<%= render 'shared/search_form' , :path => user_url(@user) , :lable => "#{@user.name}'s Microposts", :rel => "external" %><br/>
+
+<div id='paginated_list'>
+ <%= render 'microposts' %>
+</div>

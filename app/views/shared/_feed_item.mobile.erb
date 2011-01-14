@@ -1,0 +1,9 @@
+
+ <li> 
+ 	<font size="-1" color="blue"><%= link_to feed_item.user.username, feed_item.user , :rel => "external"  %></font>
+
+		<font size="-1" ><%= feed_item.content %> </font> 
+<br/>
+	<font size="-1" color="blue">Posted <%= time_ago_in_words(feed_item.created_at) %>  ago.</font> 
+
+ </li>

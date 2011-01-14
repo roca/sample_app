@@ -1,0 +1,5 @@
+<%= will_paginate(@microposts ,:renderer => MobilePaginationListLinkRenderer, :params => {:url => user_url(@user)}) %>
+
+<ul>
+ <%= render @microposts %>
+</ul>

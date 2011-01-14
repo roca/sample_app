@@ -1,0 +1,8 @@
+<%= form_tag path, :method => 'get' , :id => 'search_form' do  %>
+  <p>
+    <%= text_field_tag :search , params[:search] %>
+    <%= submit_tag "Search" , :id => 'search_submit' ,  :class => "submit"  %>
+    <br/>
+    <%= lable %>
+  </p>
+<% end %>

@@ -1,1 +1,25 @@
 This is a mobile version for the Home Page!
+
+<% if signed_in? %>
+
+<h1 class="micropost">What's up?</h1>
+<%= render 'shared/micropost_form' %>
+
+<%= render 'shared/search_form' , :path => root_path , :lable => 'All Feeds'%><br/>
+
+<div id='paginated_list'>
+        <%= render 'shared/feed' %>
+</div>
+
+<% else %>
+
+<h1>Sample App</h1>
+
+<p>
+  This is the home page for the
+  <a href="http://railstutorial.org/">Ruby on Rails Tutorial</a>
+  sample application.
+</p>
+
+
+<% end %>

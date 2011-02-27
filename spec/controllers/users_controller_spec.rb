@@ -36,7 +36,7 @@ describe UsersController do
         
         it "should have an element for each user" do
           get :index
-          User.paginate(:page => 1).each do |user|
+          User.page(1).each do |user|
             response.should have_selector("li", :content => user.name)
           end
         end
@@ -44,16 +44,23 @@ describe UsersController do
         
         it "should paginate users" do
            get :index
-           response.should have_selector("div.pagination")
-           response.should have_selector("span.disabled", :content => "Previous")
+           response.should have_selector("nav.pagination")
+           response.should have_selector("span.disabled", :content => "Prev")
            response.should have_selector("a", :href => "/users?page=2", :content => "2")
            response.should have_selector("a", :href => "/users?page=2", :content => "Next")
         end
         
+         it "should have a enabled 'Prev' link on second page" do
+             get :index, :page => 2
+             response.should have_selector("nav.pagination")
+             response.should have_selector("span", :content => "Prev")
+             response.should have_selector("a", :href => "/users", :content => "Prev")
+          end
+        
         it "should have a delete link for admins" do
            @user.toggle!(:admin)
            get :index
-           User.paginate(:page => 1).each do |user|
+           User.page(1).each do |user|
              response.should     have_selector("a", :href => user_path(user), :content => "delete")  unless @user == user
               response.should_not have_selector("a", :href => user_path(user), :content => "delete") unless @user != user
            end
@@ -61,7 +68,7 @@ describe UsersController do
         
         it "should not have a delete link for non-admins" do
            get :index
-           User.paginate(:page => 1).each do |user|
+           User.page(1).each do |user|
              response.should_not     have_selector("a", :href => user_path(user), :content => "delete")
            end
         end
@@ -127,7 +134,7 @@ describe UsersController do
     it "should paginate microposts" do
        35.times { Factory(:micropost, :user => @user , :content => "foo") }
        get :show, :id => @user
-       response.should have_selector("div.pagination")
+       response.should have_selector("nav.pagination")
     end
     
      it "should display microposts count" do

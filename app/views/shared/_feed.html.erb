@@ -1,11 +1,11 @@
-<% if @feed_items.any? %>
+<%# if @feed_items.any? %> <!-- This check does not work with kaminari but does with will_paginate. '@feed_items.any?' returns false on the second page even though 'paginate @feed_items' list more feed_items . Not sure why yet. Anyway this check is unnecessary!-->
 
-   <%= will_paginate @feed_items %>
+   <%= paginate @feed_items %>
 	
 	<table class="microposts" summmary="Status feed">
 		<%= render :partial => 'shared/feed_item', :collection => @feed_items %>
     </table>
 
-    <%= will_paginate @feed_items %>
+    <%= paginate @feed_items %>
 	
-<% end %>
+<%# end %>

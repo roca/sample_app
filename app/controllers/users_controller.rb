@@ -6,10 +6,10 @@ class UsersController < ApplicationController
   
   def index
     if (params[:search] && params[:search].match(/^[\w+\s+\-.@]+$/i) ) or params[:search].blank?
-        @users = User.search(params[:search]).paginate(:page => params[:page])
+        @users = User.search(params[:search]).page(params[:page])
      else
         flash.now[:error] = "Invalid characters used. Avoid using \, or \' or \" in search"
-        @users = User.paginate(:page => params[:page])
+        @users = User.page(params[:page])
      end
       @title = 'All users'
   end
@@ -22,10 +22,10 @@ class UsersController < ApplicationController
   def show
       @user  = User.find(params[:id])
       if (params[:search] && params[:search].match(/^[\w+\s+\-.@]+$/i) ) or params[:search].blank?
-          @microposts = @user.microposts.search(params[:search]).paginate(:page => params[:page])
+          @microposts = @user.microposts.search(params[:search]).page(params[:page])
         else
           flash.now[:error] = "Invalid characters used. Avoid using \, or \' or \" in search"
-          @microposts = @user.microposts.paginate(:page => params[:page])
+          @microposts = @user.microposts.page(params[:page])
       end
       @title = @user.name
   end
@@ -41,7 +41,7 @@ class UsersController < ApplicationController
   def show_follow(action)
       @title = action.to_s.capitalize
       @user = User.find(params[:id])
-      @users = @user.send(action).paginate(:page => params[:page])
+      @users = @user.send(action).page(params[:page])
       render 'show_follow'
  end
   

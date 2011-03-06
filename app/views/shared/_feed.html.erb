@@ -1,4 +1,6 @@
-<%# if @feed_items.any? %> <!-- This check does not work with kaminari but does with will_paginate. '@feed_items.any?' returns false on the second page even though 'paginate @feed_items' list more feed_items . Not sure why yet. Anyway this check is unnecessary!-->
+<% unless @feed_items.first.nil? %> 
+
+<!-- This check does not work with kaminari but does with will_paginate. '@feed_items.any?' returns false on the second page even though 'paginate @feed_items' list more feed_items . Not sure why yet. Anyway this check is unnecessary!-->
 
    <%= paginate @feed_items %>
 	
@@ -8,4 +10,4 @@
 
     <%= paginate @feed_items %>
 	
-<%# end %>
+<% end %>

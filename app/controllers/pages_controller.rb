@@ -5,11 +5,11 @@ class PagesController < ApplicationController
       @micropost = Micropost.new 
       if (params[:search] && params[:search].match(/^[\w+\s+\-.@]+$/i) ) or params[:search].blank?
           @feed_items = current_user.feed.search(params[:search]).page(params[:page])
+          
         else
           flash.now[:error] = "Invalid characters used. Avoid using \, or \' or \" in search"
           @feed_items = current_user.feed.page(params[:page])
       end
-      
     end
   end
 

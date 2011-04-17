@@ -26,6 +26,8 @@ group :test do
 	gem 'factory_girl_rails','1.0'
 end
 
+gem 'haml' ,'~>3.0.25'
+
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 

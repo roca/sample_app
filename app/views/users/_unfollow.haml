@@ -1,0 +1,5 @@
+- retaltionship = current_user.relationships.find_by_followed_id(@user)
+- delete = { :method => :delete }
+= form_for(retaltionship,:html => delete, :remote => true ) do |f|
+ .actions= f.submit "Unfollow"
+

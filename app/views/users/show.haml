@@ -1,0 +1,32 @@
+= javascript_include_tag 'jquery.ba-url', 'pagination'
+%table{:class =>"profile" ,:summary=>"Profile information"}
+  %tr
+    %td.main
+      %h1
+        %table.show
+          %tr
+            %td{:rowspan => "2"}
+              = gravatar_for @user , :size => 100
+            %td
+              = @user.name
+          %tr
+            %td
+              (
+              = @user.username
+              )
+      = render 'follow_form' if signed_in?
+      - if @user.microposts.any?
+        = render 'shared/search_form' , :path => user_path(@user) , :lable => 'Microposts'
+        %br{}/
+        #paginated_list
+          = render 'microposts'
+    %td{:class=>"sidebar round"}
+      %strong Name
+      = @user.name
+      %br
+      %strong URL
+      = link_to user_path(@user), @use
+      %br/
+      %strong
+        = pluralize(@user.microposts.count,'micropost')
+      = render 'shared/stats'

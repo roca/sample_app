@@ -1,13 +1,13 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.3'
+gem 'rails', '3.0.7'
 
 gem 'sqlite3-ruby', '1.2.5', :require => 'sqlite3'
 gem 'mysql', '2.8.1'
 
 gem 'gravatar_image_tag','0.1.0'
 
-gem 'kaminari'
+gem 'kaminari','0.10.2'
 
 
 
@@ -16,7 +16,7 @@ gem 'jquery-rails'
 group :development do 
 	gem 'rspec-rails', '2.1.0'
 	#gem 'rspec-rails', '2.0.0.beta.18'
-	gem 'annotate-models','1.0.4'
+	gem 'annotate-models','1.0.4', :path => '/Users/roca/.rvm/gems/ruby-1.9.2-p0@rails3/gems/annotate-models-1.0.4'
 	gem 'faker','0.3.1'
 end
 group :test do 
@@ -27,6 +27,7 @@ group :test do
 end
 
 gem 'haml' ,'~>3.0.25'
+gem 'newrelic_rpm'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

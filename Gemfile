@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.7'
+gem 'rails', '3.0.8'
 
 gem 'sqlite3-ruby', '1.2.5', :require => 'sqlite3'
 gem 'mysql', '2.8.1'
@@ -26,7 +26,7 @@ group :test do
 	gem 'factory_girl_rails','1.0'
 end
 
-gem 'haml' ,'~>3.0.25'
+gem 'haml' 
 gem 'newrelic_rpm'
 
 # Bundle edge Rails instead:

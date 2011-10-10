@@ -32,6 +32,13 @@ group :test do
   gem 'webrat', '0.7.1'
 	gem 'spork', '0.9.0.rc9'
 	gem 'factory_girl_rails','1.0'
+	gem 'rb-fsevent'
+  gem 'growl_notify'
+  gem 'guard'
+  gem 'guard-rspec'
+  gem 'guard-livereload'
+  gem 'guard-spork'
+  
 end
 # Use unicorn as the web server
 # gem 'unicorn'

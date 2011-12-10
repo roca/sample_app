@@ -20,12 +20,13 @@ group :assets do
   gem 'uglifier'
 end
 
+gem 'faker','0.3.1'
 gem 'jquery-rails'
 
 group :development do 
 	gem 'rspec-rails', '2.6.1'
 	gem 'annotate-models','1.0.4', :path => '/Users/roca/.rvm/gems/ruby-1.9.2-p0@rails3/gems/annotate-models-1.0.4'
-	gem 'faker','0.3.1'
+
 end
 group :test do 
   gem 'rspec-rails', '2.6.1'

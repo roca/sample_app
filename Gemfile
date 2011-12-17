@@ -61,3 +61,4 @@ end
 # gem 'ruby-debug19', :require => 'ruby-debug'
 
 gem 'execjs'
+gem "therubyracer", :require => 'v8'

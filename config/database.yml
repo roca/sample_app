@@ -4,15 +4,20 @@ development:
   username: developer 
   password: developer 
   host: localhost
+  socket: /tmp/mysql.sock
+
 test:
   adapter: mysql
   database: sample_app_test
   username: developer 
   password: developer 
   host: localhost
+  socket: /tmp/mysql.sock
+  
 production:
   adapter: mysql
   database: sample_app_prod
   username: developer 
   password: developer 
   host: localhost
+  socket: /tmp/mysql.sock

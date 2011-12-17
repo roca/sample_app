@@ -43,12 +43,13 @@ describe UsersController do
         
         
         it "should paginate users" do
-           get :index
-           response.should have_selector("nav.pagination")
-           response.should have_selector("span.disabled", :content => "Prev")
-           response.should have_selector("a", :href => "/users?page=2", :content => "2")
-           response.should have_selector("a", :href => "/users?page=2", :content => "Next")
-        end
+                       get :index
+                       response.should have_selector("nav.pagination")
+                       response.should have_selector("span", :content => "1")
+                       response.should_not have_selector("a", :href => "/users?page=2", :content => "1")
+                       response.should have_selector("a", :href => "/users?page=2", :content => "2")
+                       response.should have_selector("a", :href => "/users?page=2", :content => "Next")
+                    end
         
          it "should have a enabled 'Prev' link on second page" do
              get :index, :page => 2

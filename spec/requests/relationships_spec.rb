@@ -14,7 +14,7 @@ describe "Relationships" do
   it "should follow an unfollowed user by clicking the follow button" do
     lambda do
       visit  user_path(@other_user)
-      click_button 'relationship_submit'
+      click_button 'Follow'
       response.should render_template('users/show')
      end.should change(Relationship, :count).by(1)
      @user.following?(@other_user).should be_true
@@ -22,9 +22,9 @@ describe "Relationships" do
   
   it "should unfollow user by clicking the unfollow button" do
       visit  user_path(@other_user)
-      click_button 'relationship_submit'  # should follow user
+      click_button 'Follow'  # should follow user
       @user.following?(@other_user).should be_true
-      click_button 'relationship_submit'  # should unfollow user
+      click_button 'Unfollow'  # should unfollow user
       @user.following?(@other_user).should be_false
   end
   

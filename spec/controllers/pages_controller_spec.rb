@@ -53,7 +53,12 @@ describe PagesController do
       end  
       
       it "should have the right follower/following counts" do
-         get 'home'
+        
+         get 'home', :mobile => 0.to_s
+         @user.id.should_not be_nil
+         controller.current_user.should_not be_nil
+         controller.should be_signed_in
+         controller.should_not be_mobile_device
          response.should have_selector('a',:href => following_user_path(@user),
                                            :content => '0 following')
          response.should have_selector('a',:href => followers_user_path(@user),
@@ -61,13 +66,13 @@ describe PagesController do
       end
       
       it "should have search form " do
-             get 'home' , :search => "omel"
-             response.should have_selector( "form" , :method => "get", :action => root_path ) do |form|
-               form.should     have_selector( "input", :type => "text",  :name => "search", :value => 'omel')
-               form.should     have_selector( "input", :type => "submit")
-             end
-      end
-   
+                get 'home' , :search => "omel"
+                response.should have_selector( "form" , :method => "get", :action => root_path ) do |form|
+                  form.should     have_selector( "input", :type => "text",  :name => "search", :value => 'omel')
+                  form.should     have_selector( "input", :type => "submit")
+                end
+         end
+      
   end  
   
   end

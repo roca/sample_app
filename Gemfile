@@ -1,5 +1,7 @@
 source 'http://rubygems.org'
 
+gem "heroku"
+
 gem 'rails', '3.1.0'
 
 # Bundle edge Rails instead:
@@ -8,8 +10,7 @@ gem 'rails', '3.1.0'
 
 
 group :production do
-  gem 'activerecord-postgresql-adapter'
-  # gem 'pg'
+  gem 'pg'
 end
 group :development, :test do
   gem 'mysql'

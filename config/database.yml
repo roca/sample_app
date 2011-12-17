@@ -15,9 +15,7 @@ test:
   socket: /tmp/mysql.sock
   
 production:
-  adapter: mysql
+  adapter: postgres
   database: sample_app_prod
-  username: developer 
-  password: developer 
-  host: localhost
-  socket: /tmp/mysql.sock
+  username: ghbhxvbjas
+  password: PuzCVZWvdcOZmkhA1WMY 

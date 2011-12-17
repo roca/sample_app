@@ -6,8 +6,14 @@ gem 'rails', '3.1.0'
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
 
-gem 'sqlite3','1.3.4'
-gem 'mysql'
+
+group :production do
+  gem 'pg'
+end
+group :development, :test do
+  gem 'mysql'
+end
+
 gem 'gravatar_image_tag','1.0.0'
 gem 'kaminari'
 gem 'haml'

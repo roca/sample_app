@@ -209,7 +209,7 @@ describe User do
           @another_user = Factory(:user,:username => Factory.next(:username),:email => Factory.next(:email))
           @mp1 = Factory(:micropost, :user => @user, :created_at => 1.day.ago)
           @mp2 = Factory(:micropost, :user => @user, :created_at => 1.hour.ago)
-          @mp3 = Factory(:micropost, :user => @another_user, :created_at => 1.hour.ago, :in_reply_to => @user)
+          @mp3 = Factory(:micropost, :user => @another_user, :created_at => 1.hour.ago, :in_reply_to => @user.id)
         end
 
         it "should have a microposts attribute" do

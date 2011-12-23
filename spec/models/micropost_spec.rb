@@ -30,7 +30,7 @@ describe Micropost do
       
       before(:each) do
          @another_user = Factory(:user, :username => Factory.next(:username), :email => Factory.next(:email))
-         @attr2 = { :content => "@#{@user.username} micropost directed at #{@user.name}" ,:in_reply_to => @user}
+         @attr2 = { :content => "@#{@user.username} micropost directed at #{@user.name}" ,:in_reply_to => @user.id}
          @microposts = @another_user.microposts.create(@attr2)
        end
 
@@ -71,7 +71,7 @@ describe Micropost do
          
          @user_post  = @user.microposts.create!(:content => "foo")
          @other_post = @other_user.microposts.create!(:content => "bar")
-         @third_post = @third_user.microposts.create!(:content => "baz", :in_reply_to => @user)
+         @third_post = @third_user.microposts.create!(:content => "baz", :in_reply_to => @user.id)
          
          @user.follow!(@other_user)
         end

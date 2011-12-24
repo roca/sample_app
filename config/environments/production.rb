@@ -128,9 +128,11 @@ SampleApp31::Application.configure do
          config.action_mailer.smtp_settings = {
            :address              => "smtp.gmail.com",
            :port                 => 587,
+           :domain               => 'westwoodvelo.org',
            :user_name            => 'RomelCampbell@gmail.com',
            :password             => 'jGQx8TG2XCWrN',
            :authentication       => 'plain',
            :enable_starttls_auto => true  }
       
 end
+

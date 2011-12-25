@@ -32,8 +32,6 @@ SampleApp31::Application.configure do
       :address              => "smtp.gmail.com",
       :port                 => 587,
       :domain               => 'localhost:3000',
-      :user_name            => 'RomelCampbell@gmail.com',
-      :password             => 'jGQx8TG2XCWrN',
       :authentication       => 'plain',
       :enable_starttls_auto => true  }
     

@@ -1,0 +1,3 @@
+JsRoutes.generate!({
+ #options
+})

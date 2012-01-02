@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101219101824) do
+ActiveRecord::Schema.define(:version => 20111231011011) do
 
   create_table "activation_tokens", :force => true do |t|
     t.string   "token"
@@ -19,6 +19,29 @@ ActiveRecord::Schema.define(:version => 20101219101824) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "event_series", :force => true do |t|
+    t.integer  "frequency",  :default => 1
+    t.string   "period",     :default => "monthly"
+    t.datetime "starttime"
+    t.datetime "endtime"
+    t.boolean  "all_day",    :default => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "events", :force => true do |t|
+    t.string   "title"
+    t.datetime "starttime"
+    t.datetime "endtime"
+    t.boolean  "all_day",         :default => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.text     "description"
+    t.integer  "event_series_id"
+  end
+
+  add_index "events", ["event_series_id"], :name => "index_events_on_event_series_id"
 
   create_table "microposts", :force => true do |t|
     t.string   "content"

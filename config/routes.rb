@@ -1,5 +1,12 @@
 SampleApp31::Application.routes.draw do
   
+ resources :events do
+   collection do
+     get :get_events
+     post :move
+     post :resize
+   end
+ end
  resources :microposts,    :only => [:create, :destroy]
  resources :relationships, :only => [:create, :destroy]
  resources :sessions,      :only => [:new, :create , :destroy] do

@@ -62,3 +62,4 @@ end
 
 gem 'execjs'
 gem "therubyracer", :require => 'v8'
+gem "js-routes"

@@ -3,7 +3,7 @@
 
 
     $(document).ready(function(){
-     // alert('ready');
+    
         // page is now ready, initialize the calendar...
         $('#calendar').fullCalendar({
             editable: true,
@@ -12,7 +12,7 @@
                 center: 'title',
                 right: 'month,agendaWeek,agendaDay'
             },
-            defaultView: 'agendaWeek',
+            defaultView: 'month',
             height: 500,
             slotMinutes: 15,
             loading: function(bool){
@@ -25,6 +25,7 @@
             timeFormat: 'h:mm t{ - h:mm t} ',
             dragOpacity: "0.5",
             eventDrop: function(event, dayDelta, minuteDelta, allDay, revertFunc){
+              alert('move');
   //              if (confirm("Are you sure about this change?")) {
                     moveEvent(event, dayDelta, minuteDelta, allDay);
   //              }
@@ -34,6 +35,7 @@
             },
 
             eventResize: function(event, dayDelta, minuteDelta, revertFunc){
+               //alert('resize');
   //              if (confirm("Are you sure about this change?")) {
                     resizeEvent(event, dayDelta, minuteDelta);
   //              }
@@ -43,7 +45,8 @@
             },
 
             eventClick: function(event, jsEvent, view){
-                showEventDetails(event);
+              //alert('click');
+               showEventDetails(event);
             },
 
 
@@ -56,30 +59,28 @@
 
 function moveEvent(event, dayDelta, minuteDelta, allDay){
     jQuery.ajax({
-        data: {
-          id:           event.id, 
-          title:        event.title, 
-          day_delta:    dayDelta,
-          minute_delta: minuteDelta,
-          all_day:      allDay
-        },
         dataType: 'script',
         type: 'post',
-        url: move_events_path
+        url: move_events_path(
+          {id: event.id,
+           title: event.title,
+           day_delta: dayDelta,
+           minute_delta: minuteDelta,
+           all_day: allDay}
+           )
     });
 }
 
 function resizeEvent(event, dayDelta, minuteDelta){
     jQuery.ajax({
-        data: {
-          id:           event.id, 
-          title:        event.title, 
-          day_delta:    dayDelta,
-          minute_delta: minuteDelta
-        },
         dataType: 'script',
         type: 'post',
-        url: resize_events_path
+        url: resize_events_path(
+          { id: event.id,
+            title: event.title,
+            day_delta: dayDelta,
+            minute_delta: minuteDelta}
+            )
     });
 }
 

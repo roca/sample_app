@@ -3,7 +3,7 @@
 <%=javascript_include_tag 'fullcalendar/fullcalendar', 'fullcalendar/gcal' %>
 <%=stylesheet_link_tag "fullcalendar/style", 'fullcalendar/fullcalendar', 'fullcalendar/dialog' %>
 <p>
-  <%= link_to 'Create Event', new_event_path,:remote => true, :before => "$('#loading').show()", :complete => "$('#loading').hide()" %>
+  <%= link_to 'Create Event', new_event_path, :remote => true, :before => "$('#loading').show()", :complete => "$('#loading').hide()" %>
 </p>
 
 <script>

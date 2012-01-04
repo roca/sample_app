@@ -1,3 +1,3 @@
 JsRoutes.generate!({
- :file => "#{Rails.root}/public/javascripts/routes.js"
+ :file => "#{Rails.root}/tmp/javascripts/routes.js"
 })

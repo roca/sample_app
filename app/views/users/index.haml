@@ -1,5 +1,4 @@
 %h1 All users
-= javascript_include_tag 'jquery.ba-url', 'pagination'
 = render 'shared/search_form' , :path => users_path,  :lable => 'Users'
 .paginated_list
  = render 'users'

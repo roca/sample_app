@@ -3,7 +3,7 @@
 
 
     $(document).ready(function(){
-    
+        //jQuery.extend(window, Routes);
         // page is now ready, initialize the calendar...
         $('#calendar').fullCalendar({
             editable: true,
@@ -47,9 +47,7 @@
             eventClick: function(event, jsEvent, view){
               //alert('click');
                showEventDetails(event);
-            },
-
-
+            }
 
 
         });
@@ -58,10 +56,11 @@
 
 
 function moveEvent(event, dayDelta, minuteDelta, allDay){
+    alert(Routes.move_events_path);
     jQuery.ajax({
         dataType: 'script',
         type: 'post',
-        url: move_events_path(
+        url: Routes.move_events_path(
           {id: event.id,
            title: event.title,
            day_delta: dayDelta,
@@ -126,7 +125,7 @@ function deleteEvent(event_id, delete_all){
         //data: 'id=' + event_id + '&delete_all='+delete_all,
         dataType: 'script',
         type: 'delete',
-        url: event_path(event_id,{delete_all: delete_all})
+        url: Routes.event_path(event_id,{delete_all: delete_all})
     });
 }
 

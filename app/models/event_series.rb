@@ -21,6 +21,8 @@ class EventSeries < ActiveRecord::Base
   
   has_many :events, :dependent => :destroy
   
+  after_create :after_create
+  
   def after_create
     create_events_until(END_TIME)
   end

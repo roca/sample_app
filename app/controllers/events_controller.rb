@@ -1,6 +1,8 @@
 class EventsController < ApplicationController
   respond_to :html, :js,:json
   
+  before_filter :authenticate
+  
   def new
     @event = Event.new(:endtime => 1.hour.from_now, :period => "Does not repeat")
     

@@ -25,7 +25,7 @@
             timeFormat: 'h:mm t{ - h:mm t} ',
             dragOpacity: "0.5",
             eventDrop: function(event, dayDelta, minuteDelta, allDay, revertFunc){
-              alert('move');
+              //alert('move');
   //              if (confirm("Are you sure about this change?")) {
                     moveEvent(event, dayDelta, minuteDelta, allDay);
   //              }
@@ -56,7 +56,7 @@
 
 
 function moveEvent(event, dayDelta, minuteDelta, allDay){
-    alert(Routes.move_events_path);
+    //alert(Routes.move_events_path);
     jQuery.ajax({
         dataType: 'script',
         type: 'post',

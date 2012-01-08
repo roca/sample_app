@@ -74,7 +74,7 @@ function resizeEvent(event, dayDelta, minuteDelta){
     jQuery.ajax({
         dataType: 'script',
         type: 'post',
-        url: resize_events_path(
+        url: Routes.resize_events_path(
           { id: event.id,
             title: event.title,
             day_delta: dayDelta,

@@ -3,7 +3,8 @@
 }
 
 body.main {
-  background: #cff;
+  /*background: #cff;*/
+  background: navy;
 }
 
 header {
@@ -29,6 +30,7 @@ section h1 {
 /* Links */
 
 a {
+  /*color: #09c;*/
   color: #09c;
   text-decoration: none;
 }
@@ -84,7 +86,7 @@ a.signup_button {
   text-align: center;
   width: 190px;
   color: #fff;
-  background: #006400;
+  background: navy;
   font-size: 150%;
   font-weight: bold;
   padding: 20px;

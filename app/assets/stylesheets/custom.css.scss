@@ -14,7 +14,39 @@ header {
 
 header img {
   padding: 1em;
-  background: #fff;
+  background: navy;
+}
+
+#shop_left_image {
+  float: left;
+  opacity: .75;
+}
+#shop_left_image:hover {
+  opacity: 1;
+}
+
+#mark_roger_image {
+  position: relative;
+  top: 0px;
+  left: 20px;
+  -webkit-transition: opacity .2s ease-in-out;
+  -moz-transition: opacity .2s ease-in-out;
+  -o-transition: opacity .2s ease-in-out;
+  transition: opacity .5s ease-in-out;
+}
+
+#mark_roger_image:hover {
+  opacity: .70;
+}
+
+
+#shop_right_image {
+  float: right;
+  opacity: .75;
+}
+
+#shop_right_image:hover {
+  opacity: 1;
 }
 
 section {
@@ -33,7 +65,7 @@ section#external_links {
 }
 section#external_links {
   position: absolute; 
-  top: 50px;
+  top: 200px;
 }
 
 section#external_links button {

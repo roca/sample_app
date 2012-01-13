@@ -1,0 +1,20 @@
+%header#main
+  = image_tag "shop_left.jpg", size: "200x100",id: "shop_left_image"
+  = image_tag "mark_roger.png",size: "200x120",id: "mark_roger_image"
+  = image_tag "shop_right.jpg", size: "200x100",id: "shop_right_image"
+%nav#primary.round
+  %ul
+    %li= link_to_unless_current "Home", root_path
+    - if signed_in?
+      %li= link_to_unless_current "Profile",  current_user
+      %li= link_to_unless_current "Users",    users_path
+      %li= link_to_unless_current "Events",   events_path
+      %li= link_to_unless_current "Settings", edit_user_path(current_user)
+    %li= link_to_unless_current "Help", help_path
+    - if signed_in?
+      %li= link_to_unless_current "Sign out", signout_path, :method => :delete
+    - else
+      %li= link_to_unless_current "Sign in", signin_path
+
+
+

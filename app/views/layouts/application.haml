@@ -18,10 +18,13 @@
         - flash.each do |key, value|
           %div{class: "flash #{key}"}= value
         = yield
-      %section.round{id: "external_links", style: "position: absolute; right: 100px; bottom: 100px;color white;"}
+      %section#external_links.round
         %header
-          %h1 External Links
-        %p right section
+          %h4 External links
+        %button
+          %a{href: "http://www.westwoodcycle.com/", target: "_"} Westwood Cycle
+        %button
+          %a{href: "http://www.usacycling.org/", target: "_"} USA Cycling
       = render 'layouts/footer'
       = debug(params) if Rails.env.development?
 

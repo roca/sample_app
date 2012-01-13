@@ -23,6 +23,19 @@ section {
   background: #fff;
 }
 
+section#external_links {
+  position: relative; 
+  left: 1000px;
+  color: blue;
+  width: 110px;
+}
+section#external_links {
+  position: absolute; 
+  top: 50px;
+}
+
+
+
 section h1 {
   font-size: 200%;
 }

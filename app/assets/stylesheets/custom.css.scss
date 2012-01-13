@@ -273,6 +273,16 @@ h1.micropost {
   margin-bottom: 0.3em;
 }
 
+h1#westwood {
+  font: normal 35px "LeagueGothicRegular", Tahoma, Arial, sans-serif;
+}
+
+h1#westwood em{
+  
+  font-style: italic;
+  font: normal 25px "MarketingScriptRegular", Georgia, sans-serif;
+}
+
 table.microposts {
   margin-top: 1em;
 }

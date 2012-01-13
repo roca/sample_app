@@ -5,6 +5,7 @@
 body.main {
   /*background: #cff;*/
   background: navy;
+  width: 1020px;
 }
 
 header {
@@ -24,14 +25,19 @@ section {
 }
 
 section#external_links {
+  background: navy;
   position: relative; 
-  left: 1000px;
+  left: 0px;
   color: blue;
   width: 110px;
 }
 section#external_links {
   position: absolute; 
   top: 50px;
+}
+
+section#external_links button {
+  width: 125px;
 }
 
 

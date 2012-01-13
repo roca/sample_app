@@ -1,3 +1,13 @@
+@font-face {
+font-family: 'DroidSansBold';
+src: url('fonts/DroidSans-Bold-webfont.eot');
+src: local('☺'), url('fonts/DroidSans-Bold-webfont.woff') 
+format('woff'), url('fonts/DroidSans-Bold-webfont.ttf') 
+format('truetype'), url('fonts/DroidSans-Boldwebfont.svg#webfontSOhoM6aS') format('svg');
+font-weight: bold;
+font-style: normal;
+}
+
 .container {
   width: 710px;
 }
@@ -17,6 +27,7 @@ header img {
   background: navy;
 }
 
+
 #shop_left_image {
   float: left;
   opacity: .75;
@@ -32,11 +43,16 @@ header img {
   -webkit-transition: opacity .2s ease-in-out;
   -moz-transition: opacity .2s ease-in-out;
   -o-transition: opacity .2s ease-in-out;
-  transition: opacity .5s ease-in-out;
+  opacity: .75;
+  transition: all .5s ease-in-out;
 }
 
 #mark_roger_image:hover {
-  opacity: .70;
+  opacity: 1;
+  -webkit-transform: scale(1.1) rotate(-2deg); 
+  -moz-transform: scale(1.1) rotate(-2deg); 
+  -o-transform: scale(1.1) rotate(-2deg); 
+  transform: scale(1.1) rotate(-2deg);
 }
 
 

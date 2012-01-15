@@ -28,7 +28,6 @@ group :assets do
   gem 'sass-rails', "  ~> 3.1.0"
   gem 'coffee-rails', "~> 3.1.0"
   gem 'uglifier'
-  gem "zurb-foundation"
 end
 
 gem 'faker','0.3.1'
@@ -45,7 +44,9 @@ group :test do
 	gem 'spork', '0.9.0.rc9'
 	gem 'factory_girl_rails','1.0'
 	gem 'rb-fsevent'
-  gem 'growl_notify'
+	gem 'growl'
+	gem 'ruby_gntp'
+  #gem 'growl_notify', '0.0.3'
   gem 'guard'
   gem 'guard-rspec'
   gem 'guard-livereload'

@@ -1,4 +1,4 @@
-if Rails.env == 'development'
+unless Rails.env == 'production'
   JsRoutes.generate!({
    # options
   })

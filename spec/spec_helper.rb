@@ -1,5 +1,12 @@
 require 'rubygems'
 require 'spork'
+require 'rspec/rails'
+
+# Add this to load Capybara integration:
+require 'capybara/rspec'
+require 'capybara/rails'
+require 'capybara/dsl' 
+require 'ruby_gntp'
 
 Spork.prefork do
   # --- Instructions ---
@@ -36,8 +43,6 @@ Spork.prefork do
     # config.mock_with :rr
     config.mock_with :rspec
 
-    config.fixture_path = "#{::Rails.root}/spec/fixtures"
-
     # If you're not using ActiveRecord, or you'd prefer not to run each of your
     # examples within a transaction, comment the following line or assign false
     # instead of true.
@@ -46,12 +51,11 @@ Spork.prefork do
     def test_sign_in(user)
         controller.sign_in(user)
     end
-
+    
   end
     
-    def test_sign_in(user)
-         controller.sign_in(user)
-     end
+     
+   
   end
 
 

@@ -40,13 +40,13 @@ group :development do
 end
 group :test do 
   gem 'rspec-rails', '2.6.1'
-  gem 'webrat', '0.7.1'
+  gem 'capybara'
 	gem 'spork', '0.9.0.rc9'
 	gem 'factory_girl_rails','1.0'
 	gem 'rb-fsevent'
 	gem 'growl'
 	gem 'ruby_gntp'
-  #gem 'growl_notify', '0.0.3'
+  gem 'growl_notify', '0.0.3'
   gem 'guard'
   gem 'guard-rspec'
   gem 'guard-livereload'

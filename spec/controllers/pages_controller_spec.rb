@@ -15,13 +15,13 @@ describe PagesController do
     it "should have a mobile_device? methond" do
       get 'home', :mobile => 0.to_s
       controller.should_not be_mobile_device
-      response.should have_selector('a', :content => 'Mobile Site')
+      response.body.should have_link('Mobile Site')
     end
 
     it "should have a mobile_device? methond" do
       get 'home', :mobile => 1.to_s
       controller.should be_mobile_device
-      response.should have_selector('a', :content => 'Full Site')
+      response.body.should have_link('Full Site')
     end
 
 
@@ -35,8 +35,7 @@ describe PagesController do
 
       it "should have the right title" do 
         get 'home' 
-        response.should have_selector("title", 
-              :content => @base_title + " | Home")
+        response.body.should have_selector("title", :text => @base_title + " | Home")
       end
       
       it "should have a non-blank body" do
@@ -59,15 +58,13 @@ describe PagesController do
          controller.current_user.should_not be_nil
          controller.should be_signed_in
          controller.should_not be_mobile_device
-         response.should have_selector('a',:href => following_user_path(@user),
-                                           :content => '0 following')
-         response.should have_selector('a',:href => followers_user_path(@user),
-                                           :content => '1 follower')
+         response.body.should have_link('0 following',:href => following_user_path(@user))
+         response.body.should have_link('1 follower',:href => followers_user_path(@user))
       end
       
       it "should have search form " do
                 get 'home' , :search => "omel"
-                response.should have_selector( "form" , :method => "get", :action => root_path ) do |form|
+                response.body.should have_selector( "form" , :method => "get", :action => root_path ) do |form|
                   form.should     have_selector( "input", :type => "text",  :name => "search", :value => 'omel')
                   form.should     have_selector( "input", :type => "submit")
                 end
@@ -85,8 +82,7 @@ describe PagesController do
     
     it "should have the right title" do 
       get 'contact' 
-      response.should have_selector("title", 
-            :content => @base_title + " | Contact")
+      response.body.should have_selector("title",:text => @base_title + " | Contact")
     end
   end
   
@@ -98,8 +94,7 @@ describe PagesController do
     
     it "should have the right title" do 
       get 'about' 
-      response.should have_selector("title", 
-            :content => @base_title + " | About")
+      response.body.should have_selector("title",:text => @base_title + " | About")
     end
   end
   
@@ -112,8 +107,7 @@ describe PagesController do
     
     it "should have the right title" do 
       get 'help' 
-      response.should have_selector("title", 
-            :content => @base_title + " | Help")
+      response.body.should have_selector("title",:text => @base_title + " | Help")
     end
   end
 

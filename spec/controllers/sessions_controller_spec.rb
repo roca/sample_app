@@ -14,17 +14,17 @@ describe SessionsController do
     
     it "should have the right title" do
       get :new
-      response.should have_selector("title", :content => "Sign in")
+      response.body.should have_selector("title", :text => "Sign in")
     end
     
     it "should not have a link for forgotten password page" do
         get :new
-        response.should_not have_selector("a", :href => password_sessions_path ,  :content => "Forgot your password?")
+        response.body.should_not have_link("Forgot your password?", :href => password_sessions_path)
     end
     
     it "should have new form " do
           get :new
-          response.should have_selector( "form" , :method => "post", :action => "/sessions" ) do |form|
+          response.body.should have_selector( "form" , :method => "post", :action => "/sessions" ) do |form|
             form.should have_selector("input", :type => "text",      :name => "session[email]")
             form.should have_selector("input", :type => "password",  :name => "session[password]")
             form.should have_selector("input", :type => "submit")
@@ -43,18 +43,18 @@ describe SessionsController do
 
      it "should have the right title" do
        get :token
-       response.should have_selector("title", :content => "Sign in with token")
+       response.body.should have_selector("title", :text => "Sign in with token")
      end
 
 
        it "should not have a link for incorrect token page" do
            get :token
-           response.should_not have_selector("a", :href => password_sessions_path ,  :content => "Incorrect toke get a new one !")
+           response.body.should_not have_link("Incorrect toke get a new one !", :href => password_sessions_path)
        end
        
        it "should have token form " do
             get :token
-            response.should have_selector( "form" , :method => "post", :action => "/sessions/create_with_token" ) do |form|
+            response.body.should have_selector( "form" , :method => "post", :action => "/sessions/create_with_token" ) do |form|
               form.should have_selector("input", :type => "text",      :name => "session[email]")
               form.should have_selector("input", :type => "password",  :name => "session[token]")
               form.should have_selector("input", :type => "submit")
@@ -73,17 +73,17 @@ describe SessionsController do
 
         it "should re-render the new page" do
           post :create, :session => @attr
-          response.should render_template('new')
+          response.body.should render_template('new')
         end
 
         it "should have the right title" do
           post :create, :session => @attr
-          response.should have_selector("title", :content => "Sign in")
+          response.body.should have_selector("title", :text => "Sign in")
         end
         
         it "should have a link for forgotten password page" do
           post :create, :session => @attr
-          response.should have_selector("a", :href => password_sessions_path,  :content => "Forgot your password ?")
+          response.body.should have_link("Forgot your password ?", :href => password_sessions_path)
         end
         
 
@@ -119,17 +119,17 @@ describe SessionsController do
 
         it "should re-render the token page" do
           post :create_with_token, :session => @attr
-          response.should render_template('token')
+          response.body.should render_template('token')
         end
 
         it "should have the right title" do
           post :create_with_token, :session => @attr
-          response.should have_selector("title", :content => "Sign in")
+          response.body.should have_selector("title", :text => "Sign in")
         end
         
         it "should have a link for forgotten password page" do
           post :create_with_token, :session => @attr
-          response.should have_selector("a", :href => password_sessions_path ,  :content => "Incorrect token ?  Get a new one !")
+          response.body.should have_selector("a", :text => "Incorrect token ?  Get a new one !") #, :href => password_sessions_path)
         end
         
 
@@ -148,7 +148,7 @@ describe SessionsController do
         
         it "should redirect_to edit_user_path(@user)" do
           post :create_with_token, :session => @attr
-          response.should redirect_to edit_user_path(@user)
+          response.body.should redirect_to edit_user_path(@user)
         end
         
         it "should destroy the users token" do
@@ -176,7 +176,7 @@ describe SessionsController do
 
           it "should redirect to the user show page" do
             post :create, :session => @attr
-            response.should redirect_to root_path #(user_path(@user))
+            response.body.should redirect_to root_path #(user_path(@user))
           end
   end
 
@@ -196,7 +196,7 @@ describe SessionsController do
 
           it "should redirect to the user show page" do
             post :create_with_token, :session => @attr
-            response.should redirect_to(edit_user_path(@user))
+            response.body.should redirect_to(edit_user_path(@user))
           end
   end
     
@@ -206,7 +206,7 @@ describe SessionsController do
           test_sign_in(Factory(:user))
           delete :destroy
           controller.should_not be_signed_in
-          response.should redirect_to(root_path)
+          response.body.should redirect_to(root_path)
         end
         
   end
@@ -219,12 +219,12 @@ describe SessionsController do
       
       it "should have the right title" do
         get :password
-        response.should have_selector("title", :content => "Forgotten password")
+        response.body.should have_selector("title", :text => "Forgotten password")
       end
       
       it "should have password form " do
            get :password
-           response.should have_selector( "form" , :method => "post", :action => "/sessions/send_password_request" ) do |form|
+           response.body.should have_selector( "form" , :method => "post", :action => "/sessions/send_password_request" ) do |form|
              form.should have_selector("input", :type => "text",     :name => "session[email]")
              form.should have_selector("input", :type => "submit")
            end
@@ -242,14 +242,14 @@ describe SessionsController do
          it "should render the password page if email does not exists" do
            post :send_password_request,  :session => {:email => @non_existing_email}
            flash.now[:error].should =~ /This email does not exist in our database/i
-           response.should render_template('password')
+           response.body.should render_template('password')
          end
            
              
           it "should render the token page if email exists" do
             post :send_password_request, :session => {:email => @user.email}
             flash.now[:success].should =~ /A temporary activation token has been sent to #{@user.email}/i
-            response.should render_template('token')
+            response.body.should render_template('token')
           end
           
           it "should send an email and create a user activation token" do

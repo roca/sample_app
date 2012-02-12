@@ -1,5 +1,6 @@
 require 'spec_helper'
 
+
 describe Micropost do
   before(:each) do
     @user = Factory(:user)
@@ -163,5 +164,95 @@ describe Micropost do
 
      end
 
+     describe "micropost audit" do
+
+         before(:each) do
+           @one_months_ago   = (Time.now - 1.months)
+           @two_months_ago   = (Time.now - 2.months)
+           @three_months_ago = (Time.now - 3.months)
+           @four_months_ago  = (Time.now - 4.months)
+           @another_user = Factory(:user, :username => Factory.next(:username), :email => Factory.next(:email))
+           
+           
+           
+           50.times do
+             @user.microposts.create!({:content => Faker::Lorem.sentence(5)})
+             microposts = Micropost.where(["user_id = ? and created_at > ? ",@user,(Time.now - 1.day)])
+             microposts.each do |micropost|
+                micropost.created_at = @two_months_ago
+                micropost.save
+              end
+            end
+             50.times do
+               @user.microposts.create!({:content => Faker::Lorem.sentence(5)})
+                microposts = Micropost.where(["user_id = ? and created_at > ? ",@user,(Time.now - 1.day)])
+                microposts.each do |micropost|
+                  micropost.created_at = @three_months_ago
+                  micropost.save
+                end
+              end
+                         
+              50.times do
+                @user.microposts.create!({:content => Faker::Lorem.sentence(5)})
+                 microposts = Micropost.where(["user_id = ? and created_at > ? ",@user,(Time.now - 1.day)])
+                 microposts.each do |micropost|
+                   micropost.created_at = @four_months_ago
+                   micropost.save
+                 end
+               end
+              
+              
+              50.times do
+                 @user.microposts.create!({:content => Faker::Lorem.sentence(5)})
+                end
+           
+              200.times do
+                @another_user.microposts.create!({:content => Faker::Lorem.sentence(5)})
+              end
+                
+                
+           end
+                  
+           it "should have 100 micropost since two months ago" do
+             microposts = Micropost.where(["user_id = ? and created_at between ? and ?",@user,@two_months_ago, Time.now])
+             microposts.length.should == 100 
+           end
+           
+           it "should have 100 micropost between three and two months ago " do
+             microposts = Micropost.where(["user_id = ? and created_at between ? and ?",@user,@three_months_ago, @two_months_ago])
+             microposts.length.should == 100 
+           end
+           
+           
+         it "should have 100 micropost between four and three months ago " do
+           
+           microposts = Micropost.where(["user_id = ? and created_at between ? and ?",@user,@four_months_ago, @three_months_ago])
+           microposts.length.should == 100
+           
+         end
+         
+         it "should have 50 micropost older than four months ago " do
+           
+           microposts = Micropost.where(["user_id = ? and created_at <= ?",@user,@four_months_ago])
+           microposts.length.should == 50
+           
+         end
+         
+         it "should have 25 allowed micropost since two months ago" do
+           allowed_microposts = Micropost.where(["user_id = ? and created_at between ? and ?",@user,@one_months_ago, Time.now]).order("id desc").limit(25)
+           
+           tobe_deleted =  Micropost.where(["user_id = ? ",@user]) - allowed_microposts
+           tobe_deleted.length.should == 175
+           
+           Micropost.destroy tobe_deleted.collect {|r| r.id}
+           
+           Micropost.where(["user_id = ? ",@user]).order("id desc").first.should == allowed_microposts.first
+           Micropost.where(["user_id = ? ",@user]).order("id desc").last.should == allowed_microposts.last
+           Micropost.where(["user_id = ? ",@user]).order("id desc").length.should == allowed_microposts.length
+           
+           
+         end
+         
+     end
 
 end

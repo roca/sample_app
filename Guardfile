@@ -2,6 +2,8 @@
 # More info at https://github.com/guard/guard#readme
 
 notification :gntp
+#notification :gntp, :sticky => false, :host => 'localhost', :password => '', :port     => 23053
+
 
 
 guard 'spork', :cucumber_env => { 'RAILS_ENV' => 'test' }, :rspec_env => { 'RAILS_ENV' => 'test' } do
@@ -24,7 +26,7 @@ guard 'livereload' do
   watch(%r{config/locales/.+\.yml})
 end
 
-guard 'rspec', :version => 2, :cli => "--color --format nested --drb" do
+guard 'rspec', :version => 2, :cli => "" do #--color --format nested --drb
   watch(%r{^spec/.+_spec\.rb$})
   watch(%r{^lib/(.+)\.rb$})     { |m| "spec/lib/#{m[1]}_spec.rb" }
   watch('spec/spec_helper.rb')  { "spec" }

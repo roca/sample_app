@@ -6,16 +6,20 @@ class EventsController < ApplicationController
   def new
     @event = Event.new(:endtime => 1.hour.from_now, :period => "Does not repeat")
     
-    respond_with @event
+    respond_with @event, layout: false
   end
   
   def create
     if params[:event][:period] == "Does not repeat"
       @event = Event.new(params[:event])
+      respond_with @event, layout: false
     else
       #      @event_series = EventSeries.new(:frequency => params[:event][:frequency], :period => params[:event][:repeats], :starttime => params[:event][:starttime], :endtime => params[:event][:endtime], :all_day => params[:event][:all_day])
       @event_series = EventSeries.new(params[:event])
+      respond_with @event_series, layout: false
     end
+    
+    
   end
   
   def index
@@ -29,7 +33,7 @@ class EventsController < ApplicationController
     @events.each do |event|
       events << {:id => event.id, :title => event.title, :description => event.description || "Some cool description here...", :start => "#{event.starttime.iso8601}", :end => "#{event.endtime.iso8601}", :allDay => event.all_day, :recurring => (event.event_series_id)? true: false}
     end
-    render :text => events.to_json
+    render :text => events.to_json, layout: false
   end
   
   
@@ -42,6 +46,8 @@ class EventsController < ApplicationController
       @event.all_day = params[:all_day]
       @event.save
     end
+    
+    respond_with @event, layout: false
   end
   
   
@@ -51,10 +57,13 @@ class EventsController < ApplicationController
       @event.endtime = (params[:minute_delta].to_i).minutes.from_now((params[:day_delta].to_i).days.from_now(@event.endtime))
       @event.save
     end    
+    
+    respond_with @event, layout: false
   end
   
   def edit
     @event = Event.find_by_id(params[:id])
+    respond_with @event, layout: false
   end
   
   def update
@@ -70,6 +79,7 @@ class EventsController < ApplicationController
       @event.save
     end
 
+    respond_with @event, layout: false
     
   end  
   
@@ -84,10 +94,7 @@ class EventsController < ApplicationController
       @event.destroy
     end
     
-    render :update do |page|
-      page<<"$('#calendar').fullCalendar( 'refetchEvents' )"
-      page<<"$('#desc_dialog').dialog('destroy')" 
-    end
+    render :update , layout: false
     
   end
   

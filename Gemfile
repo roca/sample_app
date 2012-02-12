@@ -33,21 +33,17 @@ end
 gem 'faker','0.3.1'
 gem 'jquery-rails'
 
-group :development do 
-	gem 'rspec-rails', '2.6.1'
+group :development, :test do 
 	gem 'annotate-models','1.0.4', :path => '/Users/roca/.rvm/gems/ruby-1.9.2-p0@rails3/gems/annotate-models-1.0.4'
-
-end
-group :test do 
   gem 'rspec-rails', '2.6.1'
   gem 'capybara'
 	gem 'spork', '0.9.0.rc9'
 	gem 'factory_girl_rails','1.0'
 	gem 'rb-fsevent'
+	#gem 'ruby_gntp'
+	gem 'growl_notify'
+	gem 'guard'
 	gem 'growl'
-	gem 'ruby_gntp'
-  gem 'growl_notify', '0.0.3'
-  gem 'guard'
   gem 'guard-rspec'
   gem 'guard-livereload'
   gem 'guard-spork'

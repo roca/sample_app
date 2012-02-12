@@ -6,7 +6,10 @@ require 'rspec/rails'
 require 'capybara/rspec'
 require 'capybara/rails'
 require 'capybara/dsl' 
-require 'ruby_gntp'
+#require 'ruby_gntp'
+
+
+
 
 Spork.prefork do
   # --- Instructions ---

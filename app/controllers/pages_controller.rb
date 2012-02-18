@@ -1,4 +1,6 @@
 class PagesController < ApplicationController
+  respond_to :html, :js
+  
   def home
     @title = "Home"
     if signed_in?
@@ -11,6 +13,12 @@ class PagesController < ApplicationController
           @feed_items = current_user.feed.page(params[:page])
       end
     end
+    
+          respond_with(@feed_items) do |format|
+          format.js {  
+               render :layout => false
+            }
+          end
   end
 
   def  contact

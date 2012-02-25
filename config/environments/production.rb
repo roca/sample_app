@@ -124,6 +124,9 @@ SampleApp31::Application.configure do
     # Send deprecation notices to registered listeners
     config.active_support.deprecation = :notify
     
+    config.active_record.mass_assignment_sanitizer = :strict
+    
+    
       config.action_mailer.delivery_method = :smtp
          config.action_mailer.smtp_settings = {
            :address              => "smtp.gmail.com",

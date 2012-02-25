@@ -2,7 +2,7 @@ source 'http://rubygems.org'
 
 gem "heroku"
 
-gem 'rails', '3.1.3'
+gem 'rails', '3.2.1'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
@@ -25,9 +25,9 @@ gem 'haml'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails', "  ~> 3.1.0"
-  gem 'coffee-rails', "~> 3.1.0"
-  gem 'uglifier'
+  gem 'sass-rails', "  ~> 3.2.3"
+  gem 'coffee-rails', "~> 3.2.1"
+  gem 'uglifier', '>= 1.0.3'
 end
 
 gem 'faker','0.3.1'
@@ -35,12 +35,12 @@ gem 'jquery-rails'
 
 group :development, :test do 
 	gem 'annotate-models','1.0.4', :path => '/Users/roca/.rvm/gems/ruby-1.9.2-p0@rails3/gems/annotate-models-1.0.4'
-  gem 'rspec-rails', '2.6.1'
+  gem 'rspec-rails'
   gem 'capybara'
-	gem 'spork', '0.9.0.rc9'
-	gem 'factory_girl_rails','1.0'
+	gem 'spork'
+	gem 'factory_girl_rails'
 	gem 'rb-fsevent'
-	#gem 'ruby_gntp'
+	gem 'ruby_gntp'
 	gem 'growl_notify'
 	gem 'guard'
 	gem 'growl'

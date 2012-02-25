@@ -12,7 +12,14 @@
       var s = [];
       for (prop in obj){
         if (obj[prop]) {
-          s.push(prop + "=" + encodeURIComponent(obj[prop].toString()));
+          if (obj[prop] instanceof Array) {
+            for (var i=0; i < obj[prop].length; i++) {
+              key = prop + encodeURIComponent("[]");
+              s.push(key + "=" + encodeURIComponent(obj[prop][i].toString()));
+            }
+          } else {
+            s.push(prop + "=" + encodeURIComponent(obj[prop].toString()));
+          }
         }
       }
       if (s.length === 0) {
@@ -61,7 +68,7 @@
         return "";
       }
       if (typeof(object) == "object") {
-        return (object.to_param || object.id || object).toString();
+        return ((typeof(object.to_param) == "function" && object.to_param()) || object.to_param || object.id || object).toString();
       } else {
         return object.toString();
       }
